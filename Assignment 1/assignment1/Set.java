@@ -56,4 +56,10 @@ class Set implements SetInterface {
 		return null;
 	}
 
+	@Override
+	public Identifier getLast() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

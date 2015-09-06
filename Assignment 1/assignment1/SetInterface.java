@@ -5,9 +5,9 @@ package assignment1;
  * @author Ruben Helsloot 
  * @author Sherida van den Bent
  * 
- * @elements
+ * @elements objects of type Identifier.
  * @structure linear
- * @domain
+ * @domain A collection of between zero and a preset maximum of Identifiers.
  * 
  * @constructor
  *	Set ();
@@ -19,7 +19,7 @@ package assignment1;
  *	Set (Set origin);
  *		<dl>
  *			<dt><b>PRE-condition</b><dd> -
- *			<dt><b>POST-condition</b><dd>The content of the new Set is a clone of the Set origin.
+ *			<dt><b>POST-condition</b><dd>The content of the new Set is a clone of origin.
  *		</dl> */
 
 public interface SetInterface {
@@ -63,7 +63,7 @@ public interface SetInterface {
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The length length of the set has been returned.
+	 * @postcondition The length of the set is returned.
 	 */
 	int getSize();
 
@@ -75,16 +75,26 @@ public interface SetInterface {
 	 * @postcondition TRUE: The set is empty. FALSE: The set is nonempty.
 	 */
 	boolean isEmpty();
+	
+	/*
+	 * Returns the last element of the Set, similar to the top method of a Numberstack.
+	 * 
+	 * @precondition The Set is nonempty.
+	 * 
+	 * @postcondition A copy of the last element in the Set-PRE is returned.
+	 */
+	
+	Identifier getLast();
 
 	/*
 	 * Returns a set containing the union of the own set and the given set.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The new set contains all elements that are in either the
-	 * own set or the given set, but does not contain duplicate elements.
+	 * @postcondition The new Set contains all elements that are in either the
+	 * own Set or the given Set, but does not contain duplicate elements.
 	 * 
-	 * @throws If the new set contains more than the maximum amount of elements.
+	 * @throws If the new Set contains more than the maximum amount of elements.
 	 */
 
 	Set union(Set S) throws ArrayIndexOutOfBoundsException;
