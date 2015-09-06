@@ -75,15 +75,17 @@ public interface SetInterface {
 	 * @postcondition TRUE: The set is empty. FALSE: The set is nonempty.
 	 */
 	boolean isEmpty();
-	
+
 	/*
-	 * Returns the last element of the Set, similar to the top method of a Numberstack.
+	 * Returns the last element of the Set, similar to the top method of a
+	 * Numberstack.
 	 * 
 	 * @precondition The Set is nonempty.
 	 * 
-	 * @postcondition A copy of the last element in the Set-PRE is returned.
+	 * @postcondition A copy of the last element in the Set-PRE is returned and
+	 * the element itself is removed from the Set.
 	 */
-	
+
 	Identifier getLast();
 
 	/*
