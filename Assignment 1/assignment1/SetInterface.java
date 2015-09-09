@@ -7,7 +7,7 @@ package assignment1;
  * 
  * @elements objects of type Identifier.
  * @structure linear
- * @domain A collection of between zero and a preset maximum of Identifiers.
+ * @domain A collection of between zero and twenty unique Identifiers.
  * 
  * @constructor
  *	Set ();
@@ -42,7 +42,7 @@ public interface SetInterface {
 	 * @postcondition The set contains an Identifier with the same content as
 	 * id.
 	 * 
-	 * @throws If the set contains more than the maximum amount of elements.
+	 * @throws If the set contains more than the maximum amount of Identifiers.
 	 */
 
 	void addElement(Identifier id) throws ArrayIndexOutOfBoundsException;
@@ -50,13 +50,13 @@ public interface SetInterface {
 	/*
 	 * Removes an Identifier from the set.
 	 * 
-	 * @precondition The set is nonempty.
+	 * @precondition -
 	 * 
 	 * @postcondition The set does not contain an Identifier with the same
 	 * content as id.
 	 */
 
-	void removeElement(Identifier id) throws ArrayIndexOutOfBoundsException;
+	void removeElement(Identifier id);
 
 	/*
 	 * Returns the length of the set.
@@ -77,24 +77,23 @@ public interface SetInterface {
 	boolean isEmpty();
 
 	/*
-	 * Returns the last element of the Set, similar to the top method of a
-	 * Numberstack.
+	 * Returns an element of the Set and removes it from the Set.
 	 * 
 	 * @precondition The Set is nonempty.
 	 * 
-	 * @postcondition A copy of the last element in the Set-PRE is returned and
+	 * @postcondition A copy of a random element in the Set-PRE is returned and
 	 * the element itself is removed from the Set.
 	 */
 
-	Identifier getLast();
+	Identifier getRandom();
 
 	/*
-	 * Returns a set containing the union of the own set and the given set.
+	 * Returns a set containing the union of the own set and the given Set S.
 	 * 
 	 * @precondition -
 	 * 
 	 * @postcondition The new Set contains all elements that are in either the
-	 * own Set or the given Set, but does not contain duplicate elements.
+	 * own Set or the given Set S.
 	 * 
 	 * @throws If the new Set contains more than the maximum amount of elements.
 	 */
@@ -102,36 +101,36 @@ public interface SetInterface {
 	Set union(Set S) throws ArrayIndexOutOfBoundsException;
 
 	/*
-	 * Returns a set containing the difference of the own set and the given set.
+	 * Returns a set containing the difference of the own Set and the given Set S.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The new set contains all elements that are in the own set,
-	 * but not the given set.
+	 * @postcondition The new set contains all elements that are in the own Set,
+	 * but not the given Set S.
 	 */
 
 	Set difference(Set S);
 
 	/*
-	 * Returns a set containing the intersection of the own set and the given
-	 * set.
+	 * Returns a set containing the intersection of the own Set and the given
+	 * Set S.
 	 * 
 	 * @precondition -
 	 * 
 	 * @postcondition The new set contains all elements that are in both the own
-	 * set and the given set.
+	 * Set and the given Set S.
 	 */
 
 	Set intersection(Set S);
 
 	/*
-	 * Returns a set containing the symmetric difference of the own set and the
-	 * given set.
+	 * Returns a set containing the symmetric difference of the own Set and the
+	 * given Set S.
 	 * 
 	 * @precondition -
 	 * 
 	 * @postcondition The new set contains all elements that are in either the
-	 * own set or the given set, but not in both.
+	 * own Set or the given Set S.
 	 * 
 	 * @throws If the new set contains more than the maximum amount of elements.
 	 * 

@@ -15,7 +15,7 @@ class Set implements SetInterface {
 	}
 
 	@Override
-	public void removeElement(Identifier id) throws ArrayIndexOutOfBoundsException {
+	public void removeElement(Identifier id) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -30,6 +30,12 @@ class Set implements SetInterface {
 	public boolean isEmpty() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Identifier getRandom() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -52,12 +58,6 @@ class Set implements SetInterface {
 
 	@Override
 	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Identifier getLast() {
 		// TODO Auto-generated method stub
 		return null;
 	}

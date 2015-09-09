@@ -1,4 +1,4 @@
-package assignment1;
+ package assignment1;
 
 /* ADT for the class Identifier
  * 
@@ -10,10 +10,10 @@ package assignment1;
  * @domain all series of nonempty alphanumeric characters starting with a letter
  * 
  * @constructor
- *	Identifier(String s);
+ *	Identifier(char c);
  *	    <dl>
- *		<dt><b>PRE-condition</b><dd>The nonempty string s starts with a letter.
- *		<dt><b>POST-condition</b><dd>The new Identifier contains the string s.
+ *		<dt><b>PRE-condition</b><dd>The char c is a letter.
+ *		<dt><b>POST-condition</b><dd>The new Identifier contains the char c.
  *	    </dl>
  *	<br>
  *	Identifier(Identifier origin);
@@ -40,21 +40,20 @@ public interface IdentifierInterface {
 	 * 
 	 * @precondition c is a letter or a number in the format of a-Z or 0-9.
 	 * 
-	 * @postcondition The character has been added to the Identifier.
+	 * @postcondition The character has been added to the back of the Identifier.
 	 */
 
 	void add(char c);
 
 	/*
-	 * Returns a specific character of the Identifier.
+	 * Returns the Identifier.
 	 * 
-	 * @precondition index is a number that is larger than 0 and smaller than
-	 * the length of the Identifier.
+	 * @precondition -
 	 * 
-	 * @postcondition The character at the specified index has been returned.
+	 * @postcondition The Identifier has been returned.
 	 */
 
-	char get(int index);
+	char get();
 
 	/*
 	 * Removes a specific character from the Identifier.

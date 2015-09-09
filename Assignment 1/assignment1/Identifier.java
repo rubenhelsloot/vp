@@ -4,7 +4,7 @@ class Identifier implements IdentifierInterface {
 
 	@Override
 	public void init(char c) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -15,7 +15,7 @@ class Identifier implements IdentifierInterface {
 	}
 
 	@Override
-	public char get(int index) {
+	public char get() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -37,5 +37,6 @@ class Identifier implements IdentifierInterface {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
