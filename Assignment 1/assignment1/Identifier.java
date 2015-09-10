@@ -1,42 +1,67 @@
 package assignment1;
 
 class Identifier implements IdentifierInterface {
+	
+	static final int MAX_ID_SIZE = 20;
+	int idLength;
+	StringBuffer sb;
 
-	@Override
-	public void init(char c) {
-		
-		
+	Identifier() {
+		idLength = 1;
+		sb = new StringBuffer();
+		sb.append('1');
+	}
+
+	Identifier(Identifier origin) {
+		idLength = origin.getSize();
+		sb = origin.get().sb;
 	}
 
 	@Override
-	public void add(char c) {
-		// TODO Auto-generated method stub
-		
+	public Identifier init(char c) {
+		sb.delete(0, MAX_ID_SIZE);
+		sb.append(c);
+		idLength = 1;
+		return this;
 	}
 
 	@Override
-	public char get() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Identifier add(char c) {
+		sb.append(c);
+		idLength ++;
+		return this;
 	}
 
 	@Override
-	public void remove(int index) {
-		// TODO Auto-generated method stub
-		
+	public Identifier get() {
+		return this;
+	}
+
+	@Override
+	public Identifier remove(int index) {
+		sb.deleteCharAt(idLength - 1);
+		idLength --;
+		return this;
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return idLength;
 	}
 
 	@Override
 	public boolean equals(Identifier id) {
-		// TODO Auto-generated method stub
+		if (id.getSize() != idLength) {
+			return false;
+		}
+		
+		String sb2 = id.sb.toString();
+		
+		if (sb2 == sb.toString()) {
+			return true;
+		}
+
 		return false;
 	}
-
 
 }

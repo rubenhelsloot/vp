@@ -32,7 +32,7 @@ public interface SetInterface {
 	 * @postcondition The empty set has been initialized.
 	 */
 
-	void init();
+	Set init();
 
 	/*
 	 * Adds an Identifier to the set.
@@ -45,7 +45,7 @@ public interface SetInterface {
 	 * @throws If the set contains more than the maximum amount of Identifiers.
 	 */
 
-	void addElement(Identifier id) throws ArrayIndexOutOfBoundsException;
+	Set addElement(Identifier id) throws ArrayIndexOutOfBoundsException;
 
 	/*
 	 * Removes an Identifier from the set.
@@ -56,7 +56,7 @@ public interface SetInterface {
 	 * content as id.
 	 */
 
-	void removeElement(Identifier id);
+	Set removeElement(Identifier id);
 
 	/*
 	 * Returns the length of the set.

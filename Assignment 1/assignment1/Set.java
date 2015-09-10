@@ -2,40 +2,92 @@ package assignment1;
 
 class Set implements SetInterface {
 
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
+	private static int MAX_SET_SIZE = 20;
+	private static String tooLargeSet = "The set contains more than " + MAX_SET_SIZE + " elements.";
+	private Identifier[] set;
+	int setLength;
+
+	Set() {
+		set = new Identifier[MAX_SET_SIZE];
+		setLength = 0;
+	}
+
+	Set(Set origin) {
+		set = new Identifier[MAX_SET_SIZE];
+		setLength = origin.getSize();
+		Set copy = origin.copy();
+		for (int i = 0; i < setLength; i++) {
+			set[i] = new Identifier(copy.getRandom());
+			copy.removeElement(set[i]);
+		}
+	}
+
+	private Set copy() {
+		Set copy = new Set();
+
+		for (int i = 0; i < setLength; i++) {
+			try {
+				copy.addElement(new Identifier(set[i]));
+			} catch (ArrayIndexOutOfBoundsException error) {
+				System.out.println(tooLargeSet);
+			}
+		}
+		return copy;
 	}
 
 	@Override
-	public void addElement(Identifier id) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		
+	public Set init() {
+		setLength = 0;
+		return this;
 	}
 
 	@Override
-	public void removeElement(Identifier id) {
-		// TODO Auto-generated method stub
-		
+	public Set addElement(Identifier id) {
+		try {
+			for (int i = 0; i < setLength; i++) {
+				if (set[i].equals(id)) {
+					return this;
+				}
+			}
+			set[setLength] = id;
+			setLength++;
+			return this;
+		} catch (ArrayIndexOutOfBoundsException error) {
+			System.out.println(tooLargeSet);
+			return this;
+		}
+	}
+
+	@Override
+	public Set removeElement(Identifier id) {
+		if (isEmpty()) {
+			return this;
+		}
+
+		for (int i = 0; i < setLength; i++) {
+			if (set[i].equals(id)) {
+				for (int j = i; j < setLength; j++) {
+					set[j] = set[j + 1];
+				}
+				setLength--;
+			}
+		}
+		return this;
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return setLength;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return setLength == 0;
 	}
 
 	@Override
 	public Identifier getRandom() {
-		// TODO Auto-generated method stub
-		return null;
+		return set[setLength - 1];
 	}
 
 	@Override

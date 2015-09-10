@@ -10,7 +10,7 @@
  * @domain all series of nonempty alphanumeric characters starting with a letter
  * 
  * @constructor
- *	Identifier(char c);
+ *	Identifier();
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>The char c is a letter.
  *		<dt><b>POST-condition</b><dd>The new Identifier contains the char c.
@@ -33,7 +33,7 @@ public interface IdentifierInterface {
 	 * @postcondition The identifier has been initialized with a character c.
 	 */
 
-	void init(char c);
+	Identifier init(char c);
 
 	/*
 	 * Adds a character to the Identifier
@@ -43,7 +43,7 @@ public interface IdentifierInterface {
 	 * @postcondition The character has been added to the back of the Identifier.
 	 */
 
-	void add(char c);
+	Identifier add(char c);
 
 	/*
 	 * Returns the Identifier.
@@ -53,7 +53,7 @@ public interface IdentifierInterface {
 	 * @postcondition The Identifier has been returned.
 	 */
 
-	char get();
+	Identifier get();
 
 	/*
 	 * Removes a specific character from the Identifier.
@@ -65,7 +65,7 @@ public interface IdentifierInterface {
 	 * the Identifier.
 	 */
 
-	void remove(int index);
+	Identifier remove(int index);
 
 	/*
 	 * Returns the length of the Identifier.
