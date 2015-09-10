@@ -21,14 +21,8 @@ public class Main {
 		return in.next().charAt(0);
 	}
 
-//	private boolean hasNextCharIsSpecial(Scanner in, char c) {
-//		String s = Character.toString(c);
-//		System.out.println(s.equals(in.next()));
-//		return in.hasNext(s);
-//	}
-	
 	private boolean hasNextCharIsSpecial(Scanner in, char c) {
-		return in.hasNext(Pattern.quote(c+""));
+		return in.hasNext(Pattern.quote(c + ""));
 	}
 
 	private boolean hasNextCharIsDigit(Scanner in) {
@@ -43,16 +37,12 @@ public class Main {
 		return (hasNextCharIsDigit(in) || hasNextCharIsLetter(in));
 	}
 
-	private boolean hasNextCharIsSpace(Scanner in) {
-		return in.hasNext(String.valueOf(SPACE));
-	}
-
 	private boolean hasNextCharIsNewLine(Scanner in) {
 		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r');
 	}
 
 	private void removeWhiteSpace(Scanner in) {
-		while (hasNextCharIsSpace(in)) {
+		while (hasNextCharIsSpecial(in, SPACE)) {
 			in.next(); // Pass over the whitespace.
 		}
 	}
@@ -71,47 +61,36 @@ public class Main {
 		return true;
 	}
 
-	// private boolean parseInput(Set answer, Scanner in) {
-	// if (!hasNextCharIsLetter(in)) {
-	// System.out.println("The identifier should start with a letter.");
-	// in.nextLine();
-	// return false;
-	// }
-	//
-	// Identifier id = new Identifier();
-	// id.init(nextChar(in));
-	// while (hasNextCharIsAlphaNumerical(in)) {
-	// id = id.add(nextChar(in));
-	// }
-	//
-	// if (hasNextCharIsNewLine(in)) {
-	// System.out.println("The input should end with the closing tag, " + CLOSE
-	// + ".");
-	// in.nextLine();
-	// return false;
-	// }
-	//
-	// if (hasNextCharIsSpecial(in, CLOSE) || hasNextCharIsSpecial(in,
-	// DEFAULT_DELIMITER.charAt(0))) {
-	// System.out.println("The input can only consists of numbers and letters, a
-	// closing tag " + CLOSE
-	// + " and an opening tag " + OPEN + ".");
-	// in.nextLine();
-	// return false;
-	// }
-	//
-	// answer.addElement(id);
-	//
-	// if (answer.getSize() > MAX_INPUT_SIZE) {
-	// System.out.println("The input contains more than the maximum of " +
-	// MAX_INPUT_SIZE + " elements.");
-	// in.nextLine();
-	// return false;
-	// }
-	// removeWhiteSpace(in);
-	//
-	// return true;
-	// }
+	private boolean parseInput(Set answer, Scanner in, Identifier id) {
+		if (!hasNextCharIsLetter(in)) {
+			System.out.println("The identifier should start with a letter.");
+			in.nextLine();
+			return false;
+		}
+
+		id.init(nextChar(in));
+		while (hasNextCharIsAlphaNumerical(in)) {
+			id = id.add(nextChar(in));
+			System.out.println(id.sb);
+		}
+
+		if (hasNextCharIsNewLine(in)) {
+			System.out.println("The input should end with the closing tag, " + CLOSE + ".");
+			in.nextLine();
+			return false;
+		}
+
+		System.out.println(id.sb);
+		answer.addElement(id);
+
+		if (answer.getSize() > MAX_INPUT_SIZE) {
+			System.out.println("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.");
+			in.nextLine();
+			return false;
+		}
+		removeWhiteSpace(in);
+		return true;
+	 }
 
 	private boolean readInput(Set answer, Scanner in) {
 		removeWhiteSpace(in);
@@ -121,46 +100,14 @@ public class Main {
 		} else {
 			in.next();
 		}
-		
+
 		removeWhiteSpace(in);
 
 		while (!hasNextCharIsSpecial(in, CLOSE)) {
-			if (!hasNextCharIsLetter(in)) {
-				System.out.println("The identifier should start with a letter.");
-				in.nextLine();
-				return false;
-			}
-			
 			Identifier id = new Identifier();
-			id.init(nextChar(in));
-			while (hasNextCharIsAlphaNumerical(in)) {
-				id = id.add(nextChar(in));
-				System.out.println(id.sb);
-			}
-
-			if (hasNextCharIsNewLine(in)) {
-				System.out.println("The input should end with the closing tag, " + CLOSE + ".");
-				in.nextLine();
+			if(!parseInput(answer, in, id)) {
 				return false;
 			}
-			
-//			if (hasNextCharIsSpecial(in, CLOSE) || hasNextCharIsSpecial(in, SPACE)) {
-//				System.out.println("The truth? YOU CAN\'T HANDLE THE TRUTH! ");
-//				System.out.println("The input can only consists of numbers and letters, a closing tag " + CLOSE
-//						+ " and an opening tag " + OPEN + ".");
-//				in.nextLine();
-//				return false;
-//			}
-			
-			System.out.println(id.sb);
-			answer.addElement(id);
-
-			if (answer.getSize() > MAX_INPUT_SIZE) {
-				System.out.println("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.");
-				in.nextLine();
-				return false;
-			}
-			removeWhiteSpace(in);
 		}
 
 		in.next();
