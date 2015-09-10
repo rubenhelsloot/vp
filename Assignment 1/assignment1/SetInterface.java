@@ -77,6 +77,16 @@ public interface SetInterface {
 	boolean isEmpty();
 
 	/*
+	 * Returns an element of the Set.
+	 * 
+	 * @precondition The Set is nonempty.
+	 * 
+	 * @postcondition A copy of a random element in the Set-PRE is returned.
+	 */
+
+	Identifier getRandom();
+	
+	/*
 	 * Returns an element of the Set and removes it from the Set.
 	 * 
 	 * @precondition The Set is nonempty.
@@ -85,7 +95,7 @@ public interface SetInterface {
 	 * the element itself is removed from the Set.
 	 */
 
-	Identifier getRandom();
+	Identifier getRemove();
 
 	/*
 	 * Returns a set containing the union of the own set and the given Set S.

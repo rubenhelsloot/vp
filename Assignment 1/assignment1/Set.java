@@ -42,20 +42,15 @@ class Set implements SetInterface {
 	}
 
 	@Override
-	public Set addElement(Identifier id) {
-		try {
-			for (int i = 0; i < setLength; i++) {
-				if (set[i].equals(id)) {
-					return this;
-				}
+	public Set addElement(Identifier id) throws ArrayIndexOutOfBoundsException {
+		for (int i = 0; i < setLength; i++) {
+			if (set[i].equals(id)) {
+				return this;
 			}
-			set[setLength] = id;
-			setLength++;
-			return this;
-		} catch (ArrayIndexOutOfBoundsException error) {
-			System.out.println(tooLargeSet);
-			return this;
 		}
+		set[setLength] = id;
+		setLength++;
+		return this;
 	}
 
 	@Override
@@ -88,6 +83,13 @@ class Set implements SetInterface {
 	@Override
 	public Identifier getRandom() {
 		return set[setLength - 1];
+	}
+
+	@Override
+	public Identifier getRemove() {
+		Identifier ident = set[setLength - 1];
+		removeElement(ident);
+		return ident;
 	}
 
 	@Override
