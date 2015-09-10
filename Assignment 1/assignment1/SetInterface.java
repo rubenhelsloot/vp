@@ -96,7 +96,18 @@ public interface SetInterface {
 	 */
 
 	Identifier getRemove();
+	
+	/*
+	 * Checks if the Set contains given Identifier.
+	 * 
+	 * @precondition
+	 * 
+	 * @postcondition TRUE: the Set contains the given Identifier FALSE: The set does not
+	 * contain the given Identifier
+	 */
 
+	boolean contains(Identifier I);
+	
 	/*
 	 * Returns a set containing the union of the own set and the given Set S.
 	 * 

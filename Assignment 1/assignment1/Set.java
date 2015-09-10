@@ -91,29 +91,65 @@ class Set implements SetInterface {
 		removeElement(ident);
 		return ident;
 	}
+	
+	@Override
+	public boolean contains(Identifier I) {
+		for(int i = 0; i < this.getSize(); i++) {
+			if(this.set[i].equals(I)) {
+				return true;
+			}
+		} 
+		return false;
+	}
 
 	@Override
-	public Set union(Set S) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+	public Set union(Set S) throws ArrayIndexOutOfBoundsException { //set will never get too big?
+		Set ownSet = new Set(this);
+		Set inputSet = new Set(S);
+		
+		while(inputSet.getSize() > 0) {
+			Identifier currentIdentifier = inputSet.getRemove();
+			if(!ownSet.contains(currentIdentifier)) {
+				ownSet.addElement(currentIdentifier); 
+			}
+		}
+		return ownSet;
 	}
 
 	@Override
 	public Set difference(Set S) {
-		// TODO Auto-generated method stub
-		return null;
+		Set differenceSet = new Set(this);
+		Set inputSet = new Set(S);
+		
+		while(inputSet.getSize() > 0) {
+			Identifier currentIdentifier = inputSet.getRemove();
+			if(differenceSet.contains(currentIdentifier)) {
+				differenceSet.removeElement(currentIdentifier);
+			}
+		}
+		return differenceSet;
 	}
 
 	@Override
 	public Set intersection(Set S) {
-		// TODO Auto-generated method stub
-		return null;
+		Set inputSet = new Set(S);
+		Set intersectionSet = new Set();
+		
+		while(inputSet.getSize() > 0) {
+			Identifier currentIdentifier = inputSet.getRemove();
+			if(this.contains(currentIdentifier)) {
+				intersectionSet.addElement(currentIdentifier);
+			}
+		}
+		return intersectionSet;
 	}
 
 	@Override
-	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException { // hoeft toch niet?
+		Set differenceSet1 = new Set(this.difference(S));
+		Set differenceSet2 = new Set(S.difference(this));
+		Set symmDiffSet = new Set(differenceSet1.union(differenceSet2));
+		return symmDiffSet;
 	}
 
 }
