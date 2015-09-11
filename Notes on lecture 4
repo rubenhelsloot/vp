@@ -1,0 +1,38 @@
+Only the class can use private members, no not assume that only the object can access its private members.
+To use private members, use this.	this.i = e.i;
+
+FINAL - modifier
+final int i --> constant --> Assign values in declaration or in the constructor, but you can only assign them once.
+final method --> no override possible
+final class --> no subclasses possible
+
+Javadoc generates HTML code from the comments between /** and **/ tags. Please use Javadoc. Javadoc is awesome. Etc.
+
+OVERRIDE
+If a subclass has a method and its superclass has a method with the same signature, an override happens.
+Signature = method name && method parameters
+Method parameters = same if amount of parameters and types are equal
+
+Modifiers (access)									use
+Private				||			private int i 	--> in same class				||
+<package>			||			int i			-->	+ in the package folder		||
+Protected			\/			protected int i -->	+ in subclasses				\/
+Public		more restrictive	public int i	--> + everywhere				less restrictive
+
+class Object - superclass of every class
+Consequence: everything in the class Object is inherited by every class ever made in Java.
+
+Problem 2 will use inner classes, it will therefore be different from the problem 2 of last year.
+
+methods in Object:
+	- public String toString();
+	- public boolean equals(Object obj); //==
+	- public final native Class getClass();
+	- protected native Object clone() throws CloneNotSupportedException;
+	
+Interface - defines a type
+An instance of a class that implements interfaces now has the types of all the interfaces that it implements.
+
+Auto boxing and auto unboxing - Make objects from primitive types
+Integer wi = new Integer(3) --> Intefer wi = 3; (auto boxing)
+7 + wi --> 7 + 3 = 10 (auto unboxing)
