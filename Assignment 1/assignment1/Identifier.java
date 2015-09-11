@@ -56,13 +56,13 @@ class Identifier implements IdentifierInterface {
 		}
 		
 		for(int i = 0; i < idLength; i++) {
-			System.out.println(sb.charAt(i) + " vs " + id.sb.charAt(i));
+//			System.out.println(sb.charAt(i) + " vs " + id.sb.charAt(i));
 			if(sb.charAt(i) != id.sb.charAt(i)) {
 				return false;
 			}
 		}
 		
-		System.out.println("True");
+//		System.out.println("True");
 		return true;
 	}
 

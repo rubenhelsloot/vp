@@ -49,13 +49,13 @@ public class Main {
 
 	private boolean firstElement(Scanner in) {
 		if (!hasNextCharIsSpecial(in, OPEN)) {
-			System.out.println("We are now here.");
 			if (hasNextCharIsNewLine(in)) {
-				System.out.println("New line");
 				in.nextLine();
 				return false;
 			}
+			
 			System.out.println("The input should start with the opening tag, " + OPEN + ".");
+			in.nextLine();
 			return false;
 		}
 		return true;
@@ -138,12 +138,19 @@ public class Main {
 		return question(QUESTION_ONE, first) && question(QUESTION_TWO, second);
 	}
 	
-	private void print(Set answer) {
-		for(int i = 0; i <= answer.getSize(); i++) {
-//			System.out.println('\n' + "STARTING WITH " + i + " OF " + answer.getSize() + " AND " + answer.getRandom().sb + '\n');
-//			Identifier id = answer.getRemove();
-			System.out.println("THE ANSWER IS " + answer.getRemove().sb);
+	private void print(Set answer, String prelude){
+		System.out.print(prelude + ": {");
+		while(answer.getSize() > 0){
+			Identifier id = answer.getRemove();
+			System.out.print(id.get().sb);
+			
+			//For the last element, don't print the space at the end
+			if(answer.getSize() >= 1){
+				System.out.print(" ");
+			}
+			answer.removeElement(id);
 		}
+		System.out.print("}\n");
 	}
 
 	void start() {
@@ -152,11 +159,13 @@ public class Main {
 		second = new Set();
 
 		first.init();
-		second.init();
+		second.init(); 
 
 		while (input(first, second)) {
-			print(first);
-			print(second);
+			print(first.union(second), "Union");
+			print(first.difference(second), "Difference");
+			print(first.intersection(second), "Intersection");
+			print(first.symmetricDifference(second), "Symmetric difference");
 		}
 	}
 

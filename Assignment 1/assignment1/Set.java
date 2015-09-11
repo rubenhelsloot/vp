@@ -43,6 +43,7 @@ class Set implements SetInterface {
 
 	@Override
 	public Set addElement(Identifier id) throws ArrayIndexOutOfBoundsException {
+		
 		for (int i = 0; i < setLength; i++) {
 			if (set[i].equals(id)) {
 				System.out.println("The element you are trying to add is already in the Set.");
@@ -94,9 +95,10 @@ class Set implements SetInterface {
 	}
 	
     @Override
-	public boolean contains(Identifier I) {
-		for(int i = 0; i < this.getSize(); i++) {
-			if(this.set[i].equals(I)) {
+	public boolean contains(Identifier ident) {
+		for(int i = 0; i < getSize(); i++) {
+			if(set[i].equals(ident)) {
+//				System.out.println(set[i].sb + " equals " + ident.sb);
 				return true;
 			}
 		} 
@@ -111,7 +113,7 @@ class Set implements SetInterface {
 		while(inputSet.getSize() > 0) {
 			Identifier currentIdentifier = inputSet.getRemove();
 			if(!contains(currentIdentifier)) {
-				addElement(currentIdentifier); 
+				union.addElement(currentIdentifier); 
 			}
 		}
 		return union;
@@ -120,7 +122,7 @@ class Set implements SetInterface {
 	@Override
 	public Set difference(Set S) {
 		Set inputSet = new Set(S);
-		Set difference = new Set();
+		Set difference = new Set(this);
 		
 		while(inputSet.getSize() > 0) {
 			Identifier currentIdentifier = inputSet.getRemove();
@@ -147,7 +149,7 @@ class Set implements SetInterface {
 	}
 
 	@Override
-	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException { // hoeft toch niet?
+	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException {
 		Set difference1 = new Set(this.difference(S));
 		Set difference2 = new Set(S.difference(this));
 		Set symmDiffSet = new Set(difference1.union(difference2));
