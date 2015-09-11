@@ -55,13 +55,15 @@ class Identifier implements IdentifierInterface {
 			return false;
 		}
 		
-		String sb2 = id.sb.toString();
-		
-		if (sb2 == sb.toString()) {
-			return true;
+		for(int i = 0; i < idLength; i++) {
+			System.out.println(sb.charAt(i) + " vs " + id.sb.charAt(i));
+			if(sb.charAt(i) != id.sb.charAt(i)) {
+				return false;
+			}
 		}
-
-		return false;
+		
+		System.out.println("True");
+		return true;
 	}
 
 }

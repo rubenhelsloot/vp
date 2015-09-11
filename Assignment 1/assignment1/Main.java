@@ -71,7 +71,6 @@ public class Main {
 		id.init(nextChar(in));
 		while (hasNextCharIsAlphaNumerical(in)) {
 			id = id.add(nextChar(in));
-			System.out.println(id.sb);
 		}
 
 		if (hasNextCharIsNewLine(in)) {
@@ -79,8 +78,7 @@ public class Main {
 			in.nextLine();
 			return false;
 		}
-
-		System.out.println(id.sb);
+		
 		answer.addElement(id);
 
 		if (answer.getSize() > MAX_INPUT_SIZE) {
@@ -102,7 +100,7 @@ public class Main {
 		}
 
 		removeWhiteSpace(in);
-
+		
 		while (!hasNextCharIsSpecial(in, CLOSE)) {
 			Identifier id = new Identifier();
 			if(!parseInput(answer, in, id)) {
@@ -116,7 +114,7 @@ public class Main {
 			in.nextLine();
 			return true;
 		}
-
+		
 		System.out.println("There are characters outside of the domain, please let " + CLOSE
 				+ " be the last element in your input.");
 		in.nextLine();
@@ -139,6 +137,14 @@ public class Main {
 	private boolean input(Set first, Set second) {
 		return question(QUESTION_ONE, first) && question(QUESTION_TWO, second);
 	}
+	
+	private void print(Set answer) {
+		for(int i = 0; i <= answer.getSize(); i++) {
+//			System.out.println('\n' + "STARTING WITH " + i + " OF " + answer.getSize() + " AND " + answer.getRandom().sb + '\n');
+//			Identifier id = answer.getRemove();
+			System.out.println("THE ANSWER IS " + answer.getRemove().sb);
+		}
+	}
 
 	void start() {
 		Set first, second;
@@ -149,7 +155,8 @@ public class Main {
 		second.init();
 
 		while (input(first, second)) {
-			System.out.println("HEWWWWROO");
+			print(first);
+			print(second);
 		}
 	}
 
