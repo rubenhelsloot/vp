@@ -98,7 +98,6 @@ class Set implements SetInterface {
 	public boolean contains(Identifier ident) {
 		for(int i = 0; i < getSize(); i++) {
 			if(set[i].equals(ident)) {
-//				System.out.println(set[i].sb + " equals " + ident.sb);
 				return true;
 			}
 		} 
@@ -137,7 +136,6 @@ class Set implements SetInterface {
 	public Set intersection(Set S) {
 		Set inputSet = new Set(S);
 		Set intersection = new Set();
-//		intersection.init();
 		
 		while(inputSet.getSize() > 0) {
 			Identifier currentIdentifier = inputSet.getRemove();

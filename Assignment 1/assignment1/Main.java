@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-	public static final int MAX_INPUT_SIZE = 10;
+	public static final int MAX_INPUT_SIZE = 20;
 	public static final String DEFAULT_DELIMITER = "", QUESTION_ONE = "Give the first set: ",
 			QUESTION_TWO = "Give the second set: ";
 	public static final char OPEN = '{', CLOSE = '}', SPACE = ' ', BETWEENER = ' ';
