@@ -63,11 +63,17 @@ public class Main {
 
 	private boolean parseInput(Set answer, Scanner in, Identifier id) {
 		if (!hasNextCharIsLetter(in)) {
-			System.out.println("The identifier should start with a letter.");
+			if(!hasNextCharIsAlphaNumerical(in)) {
+				System.out.println("Every identifier should only contain alphanumerical characters.");
+				in.nextLine();
+				return false;
+			}
+			
+			System.out.println("Every identifier should start with a letter.");
 			in.nextLine();
 			return false;
 		}
-
+		
 		id.init(nextChar(in));
 		while (hasNextCharIsAlphaNumerical(in)) {
 			id = id.add(nextChar(in));
