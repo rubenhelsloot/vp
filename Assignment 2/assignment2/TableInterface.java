@@ -61,6 +61,14 @@ public interface TableInterface<K extends Data, V extends Clonable> extends Clon
 	/*
 	 * @precondition -
 	 * 
+	 * @postcondition Returns the number of rows in the Table.
+	 */
+
+	int getSize();
+	
+	/*
+	 * @precondition -
+	 * 
 	 * @postcondition Returns true if the table is empty, returns false if the
 	 * table is nonempty.
 	 */

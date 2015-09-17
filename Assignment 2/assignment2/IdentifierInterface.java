@@ -86,11 +86,4 @@ public interface IdentifierInterface extends Data {
 	 */
 	boolean equals(Identifier id);
 	
-	/*
-	 * @precondition -
-	 * 
-	 * @postcondition Returns a clone of the Identifier.
-	 */
-	
-	Identifier clone();
 }
