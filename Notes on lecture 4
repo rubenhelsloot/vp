@@ -36,3 +36,4 @@ An instance of a class that implements interfaces now has the types of all the i
 Auto boxing and auto unboxing - Make objects from primitive types
 Integer wi = new Integer(3) --> Intefer wi = 3; (auto boxing)
 7 + wi --> 7 + 3 = 10 (auto unboxing)
+
