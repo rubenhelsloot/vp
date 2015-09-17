@@ -1,6 +1,6 @@
 package assignment2;
 
-/* ADT for the class Identifier
+/* ADT for the class Set
  * 
  * @author Ruben Helsloot 
  * @author Sherida van den Bent
@@ -16,11 +16,7 @@ package assignment2;
  *			<dt><b>POST-condition</b><dd>The new object contains an empty Set.
  *		</dl>
  *		<br>
- *	Set (Set origin);
- *		<dl>
- *			<dt><b>PRE-condition</b><dd> -
- *			<dt><b>POST-condition</b><dd>The content of the new Set is a clone of origin.
- *		</dl> */
+ */
 
 public interface SetInterface<E extends Data> extends Clonable {
 

@@ -15,12 +15,6 @@ package assignment2;
  *		<dt><b>PRE-condition</b><dd> -
  *		<dt><b>POST-condition</b><dd> The content of the NaturalNumber is zero.
  *	    </dl>
- *	NaturalNumber(NaturalNumber n);
- *	    <dl>
- *		<dt><b>PRE-condition</b><dd> 
- *		<dt><b>POST-condition</b><dd> The content of the NaturalNumber a clone of the NaturalNumber origin.
- *	    </dl>
- *	<br>
  */
 
 public interface NaturalNumberInterface extends Data {
@@ -64,23 +58,4 @@ public interface NaturalNumberInterface extends Data {
 	 */
 	
 	int getSize();
-	
-	/*
-	 * Returns whether two NaturalNumbers are equal.
-	 * 
-	 * @precondition -
-	 * 
-	 * @postcondition Returns true if the NaturalNumbers are equal. Returns false
-	 * if the NaturalNumbers are not equal.
-	 */
-	
-	boolean isEqual(NaturalNumber n);
-	
-	/*
-	 * @precondition -
-	 * 
-	 * @postcondition Returns a clone of the Identifier.
-	 */
-		
-	NaturalNumber clone();
 }
