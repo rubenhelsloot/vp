@@ -1,0 +1,101 @@
+Clone() in every class, no copy constructors
+Add clone to IdentifierInterface, int compareTo //for ordering (look at String -> compareTo)
+
+SetInterface -> make it generic (type parameter);
+Parser comes next week
+Cloneable is present in default Java
+
+implementation;
+class Stack<E> implements StackInterface<E>
+	private E[] stackArray;
+	private int numberOfElements;
+	
+	Stack() {
+		-------- 	stackArray = new E[...] || new E() <-- does not work if Java does not know the type
+		stackArray = (E[])(new Object[...])
+		numberOfElements = 0;
+	}
+	
+	E top() {
+		return stackArray[numberOfElements - 1].clone();
+	}
+	
+	Stack<E> init() {
+		numberOfElements = 0;
+		return this;
+	}
+	
+	
+interface Data: everything in problem that is stored, has to have extends Data
+				cloneable, comparabble (order defined). (compare to).
+				
+//program
+Stack<String> ss = new Stack<String>;
+ss.init().push("abc").size(); ==1
+
+Nested classes - class in class (yo dawg)
+Class Node is going into class List
+Node = innerclass, List = outerclass
+Innerclass: can use all members of outerclass even if private
+
+class Node {
+	int data;
+	Node next;
+	Node (int i , Node node) {
+		data = i;
+		this.next = node;
+	}
+	Node (int i) {
+		this(i, null);
+	}
+	Node () {
+		this(0, null);
+	}
+}
+
+Node ;
+l --> ?
+//empty list
+l = null;
+l --> =
+# add 1
+l = new Node(1);
+l --> [1] --> =
+#add 2
+l = new Node(2, l)
+l --> [2] --> [1] --> =
+#after some time the list has become bigger
+l --> [6] --> [5] --> [3] --> [2] --> [1] --> =
+#add 4 after 5
+Node h = l;
+while (h.data != 5) {
+	h = h.next;
+}
+h.next = new Node(4, h.next);
+#add 0 after last Node
+Node h = l;
+while (h.next != null) {
+	h = h.next;
+}
+h.next = new node(0);
+
+4 cases:
+Insert node in empty list
+Insert node as first
+Insert node in between
+Insert node as last
+
+#remove first node
+l = l.next;
+#remove node with 3
+Node h = l;
+while(h.next.data != 3) {
+	h = h.next;
+}
+h .next = h.next.next
+#remove last node
+Node k = l;
+while(k.next.next != null) {
+	k = k.next;
+}
+k.next = null;
