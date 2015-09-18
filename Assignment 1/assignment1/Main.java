@@ -43,8 +43,13 @@ public class Main {
 
 	private void removeWhiteSpace(Scanner in) {
 		while (hasNextCharIsSpecial(in, SPACE)) {
-			in.next(); // Pass over the whitespace.
+			in.next(); // Move over the whitespace
 		}
+	}
+
+	private void errorMessage(String s, Scanner in) {
+		System.out.println(s);
+		in.nextLine();
 	}
 
 	private boolean firstElement(Scanner in) {
@@ -53,9 +58,8 @@ public class Main {
 				in.nextLine();
 				return false;
 			}
-			
-			System.out.println("The input should start with the opening tag, " + OPEN + ".");
-			in.nextLine();
+
+			errorMessage("The input should start with the opening tag, " + OPEN + ".", in);
 			return false;
 		}
 		return true;
@@ -63,38 +67,34 @@ public class Main {
 
 	private boolean parseInput(Set answer, Scanner in, Identifier id) {
 		if (!hasNextCharIsLetter(in)) {
-			if(!hasNextCharIsAlphaNumerical(in)) {
-				System.out.println("Every identifier should only contain alphanumerical characters.");
-				in.nextLine();
+			if (!hasNextCharIsAlphaNumerical(in)) {
+				errorMessage("Every identifier should only contain alphanumerical characters.", in);
 				return false;
 			}
-			
-			System.out.println("Every identifier should start with a letter.");
-			in.nextLine();
+
+			errorMessage("Every identifier should start with a letter.", in);
 			return false;
 		}
-		
+
 		id.init(nextChar(in));
 		while (hasNextCharIsAlphaNumerical(in)) {
 			id = id.add(nextChar(in));
 		}
 
 		if (hasNextCharIsNewLine(in)) {
-			System.out.println("The input should end with the closing tag, " + CLOSE + ".");
-			in.nextLine();
+			errorMessage("The input should end with the closing tag, " + CLOSE + ".", in);
 			return false;
 		}
-		
+
 		answer.addElement(id);
 
 		if (answer.getSize() > MAX_INPUT_SIZE) {
-			System.out.println("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.");
-			in.nextLine();
+			errorMessage("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.", in);
 			return false;
 		}
 		removeWhiteSpace(in);
 		return true;
-	 }
+	}
 
 	private boolean readInput(Set answer, Scanner in) {
 		removeWhiteSpace(in);
@@ -106,10 +106,10 @@ public class Main {
 		}
 
 		removeWhiteSpace(in);
-		
+
 		while (!hasNextCharIsSpecial(in, CLOSE)) {
 			Identifier id = new Identifier();
-			if(!parseInput(answer, in, id)) {
+			if (!parseInput(answer, in, id)) {
 				return false;
 			}
 		}
@@ -120,10 +120,9 @@ public class Main {
 			in.nextLine();
 			return true;
 		}
-		
-		System.out.println("There are characters outside of the domain, please let " + CLOSE
-				+ " be the last element in your input.");
-		in.nextLine();
+
+		errorMessage("There are characters outside of the domain, please let " + CLOSE
+				+ " be the last element in your input.", in);
 		return false;
 	}
 
@@ -143,15 +142,15 @@ public class Main {
 	private boolean input(Set first, Set second) {
 		return question(QUESTION_ONE, first) && question(QUESTION_TWO, second);
 	}
-	
-	private void print(Set answer, String prelude){
+
+	private void print(Set answer, String prelude) {
 		System.out.print(prelude + ": {");
-		while(answer.getSize() > 0){
+		while (answer.getSize() > 0) {
 			Identifier id = answer.getRemove();
 			System.out.print(id.get().sb);
-			
-			//For the last element, don't print the space at the end
-			if(answer.getSize() >= 1){
+
+			// For the last element, don't print the space at the end
+			if (answer.getSize() >= 1) {
 				System.out.print(" ");
 			}
 			answer.removeElement(id);
@@ -168,10 +167,16 @@ public class Main {
 		second.init(); 
 
 		while (input(first, second)) {
+			try {
 			print(first.union(second), "Union");
 			print(first.difference(second), "Difference");
 			print(first.intersection(second), "Intersection");
 			print(first.symmetricDifference(second), "Symmetric difference");
+			} catch(Exception e) {
+				System.out.println("The program was unable to construct a valid result for you and provided"+
+						" the following error message");
+				System.out.println(e);
+			}
 		}
 	}
 
