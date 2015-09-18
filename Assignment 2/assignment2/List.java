@@ -74,4 +74,21 @@ public class List implements ListInterface {
 		return null;
 	}
 
+	private class Node {
+
+	    E data;
+	    Node prior,
+	         next;
+
+	    public Node(E d) {
+	        this(d, null, null);
+	    }
+
+	    public Node(E data, Node prior, Node next) {
+	        this.data = data == null ? null : data;
+	        this.prior = prior;
+	        this.next = next;
+	    }
+
+	}
 }
