@@ -18,7 +18,7 @@ package assignment2;
  *		<br>
  */
 
-public interface SetInterface<E extends Data> extends Clonable {
+public interface SetInterface<E extends Data<E>> extends Clonable<E> {
 
 	/*
 	 * Initializes the Set-object to be an empty set.
@@ -41,7 +41,7 @@ public interface SetInterface<E extends Data> extends Clonable {
 	 * @throws If the set contains more than the maximum amount of objects of type E.
 	 */
 
-	Set<E> addElement(E id) throws ArrayIndexOutOfBoundsException;
+	Set<E> addElement(E id);
 
 	/*
 	 * Removes an object of type E from the set.
@@ -115,7 +115,7 @@ public interface SetInterface<E extends Data> extends Clonable {
 	 * @throws If the new Set contains more than the maximum amount of elements.
 	 */
 
-	Set<E> union(Set S) throws ArrayIndexOutOfBoundsException;
+	Set<E> union(Set<E> S) throws ArrayIndexOutOfBoundsException;
 
 	/*
 	 * Returns a set containing the difference of the own Set and the given Set S.
@@ -126,7 +126,7 @@ public interface SetInterface<E extends Data> extends Clonable {
 	 * but not the given Set S.
 	 */
 
-	Set<E> difference(Set S);
+	Set<E> difference(Set<E> S);
 
 	/*
 	 * Returns a set containing the intersection of the own Set and the given
@@ -138,7 +138,7 @@ public interface SetInterface<E extends Data> extends Clonable {
 	 * Set and the given Set S.
 	 */
 
-	Set<E> intersection(Set S);
+	Set<E> intersection(Set<E> S);
 
 	/*
 	 * Returns a set containing the symmetric difference of the own Set and the
@@ -153,6 +153,6 @@ public interface SetInterface<E extends Data> extends Clonable {
 	 * 
 	 */
 
-	Set<E> symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException;
+	Set<E> symmetricDifference(Set<E> S) throws ArrayIndexOutOfBoundsException;
 
 }
