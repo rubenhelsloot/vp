@@ -42,7 +42,7 @@ class Set implements SetInterface {
 	}
 
 	@Override
-	public Set addElement(Identifier id) throws ArrayIndexOutOfBoundsException {
+	public Set addElement(Identifier id) {
 		
 		for (int i = 0; i < setLength; i++) {
 			if (set[i].equals(id)) {
