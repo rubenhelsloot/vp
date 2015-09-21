@@ -3,17 +3,14 @@ package assignment1;
 class Identifier implements IdentifierInterface {
 	
 	static final int MAX_ID_SIZE = 20;
-	int idLength;
 	StringBuffer sb;
 
 	Identifier() {
-		idLength = 1;
 		sb = new StringBuffer();
 		sb.append('1');
 	}
 
 	Identifier(Identifier origin) {
-		idLength = origin.getSize();
 		sb = origin.get().sb;
 	}
 
@@ -21,14 +18,12 @@ class Identifier implements IdentifierInterface {
 	public Identifier init(char c) {
 		sb.delete(0, MAX_ID_SIZE);
 		sb.append(c);
-		idLength = 1;
 		return this;
 	}
 
 	@Override
 	public Identifier add(char c) {
 		sb.append(c);
-		idLength ++;
 		return this;
 	}
 
@@ -39,23 +34,22 @@ class Identifier implements IdentifierInterface {
 
 	@Override
 	public Identifier remove(int index) {
-		sb.deleteCharAt(idLength - 1);
-		idLength --;
+		sb.deleteCharAt(sb.length() - 1);
 		return this;
 	}
 
 	@Override
 	public int getSize() {
-		return idLength;
+		return sb.length();
 	}
 
 	@Override
 	public boolean equals(Identifier id) {
-		if (id.getSize() != idLength) {
+		if (id.getSize() != sb.length()) {
 			return false;
 		}
 		
-		for(int i = 0; i < idLength; i++) {
+		for(int i = 0; i < sb.length(); i++) {
 			if(sb.charAt(i) != id.sb.charAt(i)) {
 				return false;
 			}
