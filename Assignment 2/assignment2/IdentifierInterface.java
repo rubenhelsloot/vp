@@ -13,17 +13,17 @@
  *	Identifier();
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>The char c is a letter.
- *		<dt><b>POST-condition</b><dd>The new Identifier contains the char c.
+ *		<dt><b>POST-condition</b><dd>The new Identifier<E> contains the char c.
  *	    </dl>
  *	<br>
- *	Identifier(Identifier origin);
+ *	Identifier(Identifier<E> origin);
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>-
- *		<dt><b>POST-condition</b><dd>The content of the new Identifier is a clone of the Identifier origin
+ *		<dt><b>POST-condition</b><dd>The content of the new Identifier<E> is a clone of the Identifier<E> origin
  *	    </dl>
  */
 
-public interface IdentifierInterface extends Data {
+public interface IdentifierInterface<E extends Clonable<E>> extends Data<E> {
 
 	/*
 	 * Initializes the Identifier-object to an identifier with one character.
@@ -33,7 +33,7 @@ public interface IdentifierInterface extends Data {
 	 * @postcondition The identifier has been initialized with a character c.
 	 */
 
-	Identifier init(char c);
+	void init(char c);
 
 	/*
 	 * Adds a character to the Identifier
@@ -43,36 +43,24 @@ public interface IdentifierInterface extends Data {
 	 * @postcondition The character has been added to the back of the Identifier.
 	 */
 
-	Identifier add(char c);
+	void add(char c);
 
 	/*
 	 * Returns the Identifier.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The Identifier has been returned.
+	 * @postcondition The Identifier<E> has been returned.
 	 */
 
-	Identifier get();
-
-	/*
-	 * Removes a specific character from the Identifier.
-	 * 
-	 * @precondition index is a number that is larger than 0 and smaller than
-	 * the length of the Identifier.
-	 * 
-	 * @postcondition The character at the specified index has been removed from
-	 * the Identifier.
-	 */
-
-	Identifier remove(int index);
+	StringBuffer get();
 
 	/*
 	 * Returns the length of the Identifier.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The length of the Identifier has been returned.
+	 * @postcondition The length of the Identifier<E> has been returned.
 	 */
 	int getSize();
 
@@ -84,6 +72,6 @@ public interface IdentifierInterface extends Data {
 	 * @postcondition Returns true if the identifiers are equal. Returns false
 	 * if the identifiers are not equal.
 	 */
-	boolean equals(Identifier id);
+	boolean equals(E id);
 	
 }
