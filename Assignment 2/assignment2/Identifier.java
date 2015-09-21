@@ -66,14 +66,19 @@ class Identifier implements IdentifierInterface {
 
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
-		return 0;
+		String oString = o.toString();
+		int oLength = oString.length();
+		if(idLength == oLength){
+			return 0;
+		} else if(idLength > oLength){
+			return 1;
+		} else return -1;
 	}
 
 	@Override
 	public Identifier clone() {
-		// TODO Auto-generated method stub
-		return null;
+		Identifier idenClone = new Identifier(this);
+		return idenClone;
 	}
 
 }
