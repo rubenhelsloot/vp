@@ -65,6 +65,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public List<E> remove() {
+		//switch statement?
 		if (first == last) {
 			init();
 		} else if (current == first) {
@@ -83,22 +84,24 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean find(E d) {
-		if(!goToFirst()) return false;
-		
+		if (!goToFirst())
+			return false;
+
 		do {
-			if(d.compareTo(current.data) == 0) return true;
-			
+			if (d.compareTo(current.data) == 0)
+				return true;
+
 			// if d < current.data, d can only be in previous nodes
-			if(d.compareTo(current.data) == -1) {
-				if(current.prior != null) {
+			if (d.compareTo(current.data) == -1) {
+				if (current.prior != null) {
 					current = current.prior;
 				} else {
 					return false;
 				}
 			}
-		} while(goToNext());
-		
-		// here only if d > last.data, so d is not in List 
+		} while (goToNext());
+
+		// here only if d > last.data, so d is not in List
 		return false;
 	}
 
