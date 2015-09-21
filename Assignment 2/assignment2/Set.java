@@ -58,7 +58,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	
 	public Set<E> clone() {
 		Set<E> clone = new Set<E>();
-		clone.list = list.clone();
+		clone.setList = setList.clone();
 		return clone;		
 	}
 
