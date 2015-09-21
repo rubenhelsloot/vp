@@ -36,19 +36,24 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 	public List<E> insert(E d) {
 		if (current == null) {
 			// Insert in empty list
-			Node n = new Node(d.clone());
+			Node n = new Node((E) d.clone());
 			first = last = current = n;
+		} else if (current == first) {
+			// Insert at the beginning of the list
+			Node n = new Node((E) d.clone(), null, first);
+			first = current = n;
+			current.next.prior = current;
 		} else if (current == last) {
 			// Insert at the end of the list
-			Node n = new Node(d.clone(), last, null);
+			Node n = new Node((E) d.clone(), last, null);
 			last = current = n;
 			current.prior.next = current;
 		} else {
 			// insert before current
-			Node n = new Node(d.clone(), current.prior, current);
+			Node n = new Node((E) d.clone(), current.prior, current);
 			current = n;
 			current.prior.next = current;
-			current.next.prior = current;
+			current.prior = current;
 		}
 		return this;
 	}
@@ -78,7 +83,22 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean find(E d) {
-		// TODO Auto-generated method stub
+		if(!goToFirst()) return false;
+		
+		do {
+			if(d.compareTo(current.data) == 0) return true;
+			
+			// if d < current.data, d can only be in previous nodes
+			if(d.compareTo(current.data) == -1) {
+				if(current.prior != null) {
+					current = current.prior;
+				} else {
+					return false;
+				}
+			}
+		} while(goToNext());
+		
+		// here only if d > last.data, so d is not in List 
 		return false;
 	}
 
@@ -96,7 +116,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean goToNext() {
-		if (isEmpty() || current == last) {
+		if (isEmpty() || current.next == null) {
 			return false;
 		} else {
 			current = current.next;
@@ -106,7 +126,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean goToPrevious() {
-		if (isEmpty() || current == first) {
+		if (isEmpty() || current.prior == null) {
 			return false;
 		} else {
 			current = current.prior;
@@ -140,6 +160,5 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 			this.prior = prior;
 			this.next = next;
 		}
-
 	}
 }

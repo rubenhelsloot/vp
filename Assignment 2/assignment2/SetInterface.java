@@ -38,7 +38,6 @@ public interface SetInterface<E extends Data<E>> extends Clonable<E> {
 	 * @postcondition The set contains an object of type E with the same content as
 	 * id.
 	 * 
-	 * @throws If the set contains more than the maximum amount of objects of type E.
 	 */
 
 	Set<E> addElement(E id);
