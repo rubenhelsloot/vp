@@ -3,32 +3,23 @@ package assignment2;
 class Identifier implements IdentifierInterface {
 	
 	static final int MAX_ID_SIZE = 20;
-	int idLength;
 	StringBuffer sb;
 
 	Identifier() {
-		idLength = 1;
 		sb = new StringBuffer();
 		sb.append('1');
-	}
-
-	Identifier(Identifier origin) {
-		idLength = origin.getSize();
-		sb = origin.get().sb;
 	}
 
 	@Override
 	public Identifier init(char c) {
 		sb.delete(0, MAX_ID_SIZE);
 		sb.append(c);
-		idLength = 1;
 		return this;
 	}
 
 	@Override
 	public Identifier add(char c) {
 		sb.append(c);
-		idLength ++;
 		return this;
 	}
 
@@ -39,23 +30,22 @@ class Identifier implements IdentifierInterface {
 
 	@Override
 	public Identifier remove(int index) {
-		sb.deleteCharAt(idLength - 1);
-		idLength --;
+		sb.deleteCharAt(sb.length() - 1);
 		return this;
 	}
 
 	@Override
 	public int getSize() {
-		return idLength;
+		return sb.length();
 	}
 
 	@Override
 	public boolean equals(Identifier id) {
-		if (id.getSize() != idLength) {
+		if (id.getSize() != sb.length()) {
 			return false;
 		}
 		
-		for(int i = 0; i < idLength; i++) {
+		for(int i = 0; i < sb.length(); i++) {
 			if(sb.charAt(i) != id.sb.charAt(i)) {
 				return false;
 			}
@@ -68,16 +58,22 @@ class Identifier implements IdentifierInterface {
 	public int compareTo(Object o) {
 		String oString = o.toString();
 		int oLength = oString.length();
-		if(idLength == oLength){
+		if(sb.length() == oLength){
 			return 0;
-		} else if(idLength > oLength){
+		} else if(sb.length() > oLength){
 			return 1;
 		} else return -1;
 	}
 
 	@Override
 	public Identifier clone() {
-		Identifier idenClone = new Identifier(this);
+		Identifier idenClone = new Identifier();
+		idenClone.init(sb.charAt(0));
+		
+		for(int i = 1; i < sb.length(); i++) {
+			idenClone.add(sb.charAt(i));
+		}
+		
 		return idenClone;
 	}
 
