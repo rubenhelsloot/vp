@@ -1,41 +1,63 @@
 package assignment2;
 
-public class Table<K extends Data, V extends Clonable> implements TableInterface {
+public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInterface<K, V> {
 
-	@Override
-	public Table init() {
-		// TODO Auto-generated method stub
-		return null;
+	private List<KeyValuePair<K, V>> entry;
+
+	Table() {
+		entry = new List<KeyValuePair<K, V>>();
 	}
 
 	@Override
-	public Table update(Data key, Clonable value) {
-		// TODO Auto-generated method stub
-		return null;
+	public Table<K, V> init() {
+		entry.init();
+		return this;
+	}
+
+	private boolean find(K key) {
+		return entry.find(new KeyValuePair<K, V>(key, null));
 	}
 
 	@Override
-	public Table remove(Data key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Table<K, V> update(K key, V value) {
+		remove(key);
+		KeyValuePair<K, V> newest = new KeyValuePair<K, V>(key, value);
+		entry.insert(newest);
+		return this;
 	}
 
 	@Override
-	public Clonable getValue(Data key) throws APException {
-		// TODO Auto-generated method stub
-		return null;
+	public Table<K, V> remove(K key) {
+		if (find(key)) {
+			entry.remove();
+		}
+		return this;
+	}
+
+	@Override
+	public V getValue(K key) throws APException {
+		if (find(key)) {
+			return entry.retrieve().getValue(key);
+		} else {
+			throw new APException(
+					"The value associated with key " + key + "was failed to retrieve as the key was not found.");
+		}
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return entry.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return entry.isEmpty();
 	}
 
+	@Override
+	public Table<K, V> clone() {
+		Table<K,V> cloneTable = new Table<K,V>();
+		cloneTable.entry = entry.clone();
+		return cloneTable;
+	}
 }

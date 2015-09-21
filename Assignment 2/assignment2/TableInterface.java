@@ -18,7 +18,7 @@ package assignment2;
  *		<br>
  */
 
-public interface TableInterface<K extends Data, V extends Clonable> extends Clonable {
+public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extends Clonable<TableInterface<K,V>> {
 
 	/*
 	 * @precondition -
