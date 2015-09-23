@@ -23,7 +23,7 @@
  *	    </dl>
  */
 
-public interface IdentifierInterface<E extends Clonable<E>> extends Data<E> {
+public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identifier<E>> {
 
 	/*
 	 * Initializes the Identifier-object to an identifier with one character.

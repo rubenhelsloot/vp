@@ -47,14 +47,13 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 		return true;
 	}
 
-	@Override
-	public int compareTo(E d) {
+	public int compareTo(Identifier<E> d) {
 		Identifier<E> id = (Identifier<E>) d;
 		return sb.toString().compareTo(id.sb.toString());
 	}
 
 	@Override
-	public E clone() {
+	public Identifier<E> clone() {
 		Identifier<E> idenClone = new Identifier<E>();
 		idenClone.init(sb.charAt(0));
 		
@@ -62,7 +61,7 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 			idenClone.add(sb.charAt(i));
 		}
 		
-		return ((E) idenClone);
+		return idenClone;
 	}
 
 }
