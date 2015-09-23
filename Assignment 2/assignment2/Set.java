@@ -16,44 +16,48 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 
 	@Override
 	public Set<E> addElement(E id) {
-		// TODO Auto-generated method stub
-		return null;
+		setList.insert(id);
+		return this;
 	}
 
 	@Override
 	public Set<E> removeElement(E id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(setList.find(id)) setList.remove();
+		return this;
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return setList.size();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return setList.isEmpty();
 	}
 
 	@Override
 	public E getRandom() {
-		// TODO Auto-generated method stub
-		return null;
+		long random = Math.round(Math.random() * setList.size());
+		setList.goToFirst();
+		
+		for(long i = 1; i < random; i++) {
+			setList.goToNext();
+		}
+		
+		return setList.retrieve();
 	}
 
 	@Override
 	public E getRemove() {
-		// TODO Auto-generated method stub
-		return null;
+		E result = getRandom();
+		setList.remove();
+		return result;
 	}
 
 	@Override
 	public boolean contains(E I) {
-		// TODO Auto-generated method stub
-		return false;
+		return (setList.find(I));
 	}
 	
 	public Set<E> clone() {
@@ -64,27 +68,43 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 
 
 	@Override
-	public Set<E> union(Set<E> S) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> union(Set<E> S) {
+		Set<E> union = this.clone();
+		
+		if(union.isEmpty()) return S;
+		if(S.isEmpty()) return union;
+		
+		do {
+			E el = S.getRemove();
+			union.addElement(el);
+		} while(!S.isEmpty());
+		
+		return union;
 	}
 
 	@Override
 	public Set<E> difference(Set<E> S) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<E> difference = this.clone();
+		
+		if(difference.isEmpty()) return difference;
+		if(!S.setList.goToFirst()) return difference;
+		
+		do {
+			E el = S.getRemove();
+			difference.removeElement(el);
+		} while(!S.isEmpty());
+		
+		return difference;
 	}
 
 	@Override
 	public Set<E> intersection(Set<E> S) {
-		// TODO Auto-generated method stub
-		return null;
+		return difference(difference(S));
 	}
 
 	@Override
-	public Set<E> symmetricDifference(Set<E> S) throws ArrayIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> symmetricDifference(Set<E> S) {
+		return difference(S).union(S.difference(this));
 	}
 
 }
