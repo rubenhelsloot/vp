@@ -33,7 +33,7 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition The identifier has been initialized with a character c.
 	 */
 
-	void init(char c);
+	Identifier<E> init(char c);
 
 	/*
 	 * Adds a character to the Identifier
@@ -43,7 +43,7 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition The character has been added to the back of the Identifier.
 	 */
 
-	void add(char c);
+	Identifier<E> add(char c);
 
 	/*
 	 * Returns the Identifier.

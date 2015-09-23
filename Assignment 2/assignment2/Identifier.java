@@ -2,23 +2,23 @@ package assignment2;
 
 class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	
-	static final int MAX_ID_SIZE = 20;
 	StringBuffer sb;
 
 	Identifier() {
 		sb = new StringBuffer();
-		sb.append('1');
 	}
 
 	@Override
-	public void init(char c) {
-		sb.delete(0, MAX_ID_SIZE);
+	public Identifier<E> init(char c) {
+		sb.delete(0, getSize());
 		sb.append(c);
+		return this;
 	}
 
 	@Override
-	public void add(char c) {
+	public Identifier<E> add(char c) {
 		sb.append(c);
+		return this;
 	}
 
 	@Override
