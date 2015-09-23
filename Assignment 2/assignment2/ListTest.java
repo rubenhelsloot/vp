@@ -139,6 +139,27 @@ public class ListTest {
         assertEquals("Retrieve should return an equal object", z, letter);
 
         // TODO: You can add more of your own tests.
+        
+        List<Letter> nList = new List<>();
+        
+        Letter a = new Letter('a');
+        Letter b = new Letter('b');
+        Letter c = new Letter('c');
+        Letter d = new Letter('d');
+
+        
+        nList.insert(a);
+        nList.insert(b);
+        nList.insert(c);
+        nList.insert(d);
+        
+        nList.goToFirst();
+        nList.goToNext();
+        nList.goToNext();
+        
+        letter = nList.retrieve();
+        assertFalse("Retrieve should return another object", c == letter);
+        assertEquals("Retrieve should return an equal object", c, letter);
     }
 
     @Test
