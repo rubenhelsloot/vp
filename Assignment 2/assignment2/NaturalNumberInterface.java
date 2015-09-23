@@ -17,7 +17,7 @@ package assignment2;
  *	    </dl>
  */
 
-public interface NaturalNumberInterface extends Data {
+public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	
 	/*
 	 * Initializes the NaturalNumber and sets its contents to char c.
