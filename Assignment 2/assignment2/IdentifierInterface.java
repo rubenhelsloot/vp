@@ -63,7 +63,7 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition The length of the Identifier<E> has been returned.
 	 */
 	int getSize();
-
+	
 	/*
 	 * Returns whether two Identifiers are equal.
 	 * 
@@ -72,6 +72,5 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition Returns true if the identifiers are equal. Returns false
 	 * if the identifiers are not equal.
 	 */
-	boolean equals(E id);
-	
+	boolean equals(Identifier<E> id);
 }

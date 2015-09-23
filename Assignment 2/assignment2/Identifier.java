@@ -32,24 +32,13 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	}
 
 	@Override
-	public boolean equals(E id) {
-		Identifier<E> ident = (Identifier<E>) id;
-		if (ident.getSize() != sb.length()) {
-			return false;
-		}
-		
-		for(int i = 0; i < sb.length(); i++) {
-			if(sb.charAt(i) != ident.sb.charAt(i)) {
-				return false;
-			}
-		}
-		
-		return true;
+	public boolean equals(Identifier<E> id) {
+		if(compareTo(id) == 0) return true;
+		return false;
 	}
 
 	public int compareTo(Identifier<E> d) {
-		Identifier<E> id = (Identifier<E>) d;
-		return sb.toString().compareTo(id.sb.toString());
+		return sb.toString().compareTo(d.sb.toString());
 	}
 
 	@Override
