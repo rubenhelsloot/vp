@@ -27,7 +27,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	 * @postcondition A NaturalNumber now contains c
 	 */
 	
-	void init(char c);
+	NaturalNumber init(char c);
 	
 	/*
 	 * Adds the char c to the NaturalNumber. 
@@ -37,7 +37,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	 * @postcondition c is appended to the back of the NaturalNumber
 	 */
 	
-	void add(char c);
+	NaturalNumber add(char c);
 	
 	/* 
 	 * Returns the value of the NaturalNumber converted to int.
