@@ -76,7 +76,9 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		
 		do {
 			E el = S.getRemove();
-			union.addElement(el);
+			if(!union.setList.find(el)) {
+				union.addElement(el);
+			}
 		} while(!S.isEmpty());
 		
 		return union;
@@ -84,15 +86,18 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 
 	@Override
 	public Set<E> difference(Set<E> S) {
-		Set<E> difference = this.clone();
+		Set<E> difference = new Set<E>();
+		difference.init();
 		
-		if(difference.isEmpty()) return difference;
-		if(!S.setList.goToFirst()) return difference;
+		if(!setList.goToFirst()) return this;
+		if(S.isEmpty()) return this;
 		
 		do {
-			E el = S.getRemove();
-			difference.removeElement(el);
-		} while(!S.isEmpty());
+			E el = setList.retrieve();
+			if(!S.setList.find(el)) {
+				difference.addElement(el);
+			}
+		} while(setList.goToNext());
 		
 		return difference;
 	}
