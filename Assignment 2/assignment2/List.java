@@ -23,37 +23,47 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 	public int size() {
 		int size = 0;
 
-		if (goToFirst()) {
-			do {
-				size++;
-			} while (goToNext());
-		}
+		if (isEmpty())
+			return size;
+
+		size = getSize(first);
 
 		return size;
 	}
 
+	private int getSize(Node node) {
+		if (node == null) {
+			return 0;
+		}
+		return 1 + getSize(node.next);
+	}
+
 	@Override
 	public List<E> insert(E d) {
+		
+		if(find(d)) {
+			remove();
+		}
+
 		if (current == null) {
 			// Insert in empty list
 			Node n = new Node((E) d.clone());
 			first = last = current = n;
-		} else if (current == first) {
-			// Insert at the beginning of the list
-			Node n = new Node((E) d.clone(), null, first);
-			first = current = n;
-			current.next.prior = current;
 		} else if (current == last) {
 			// Insert at the end of the list
 			Node n = new Node((E) d.clone(), last, null);
 			last = current = n;
 			current.prior.next = current;
+		} else if (current == first) {
+			// Insert at the beginning of the list
+			Node n = new Node((E) d.clone(), null, first);
+			first = current = n;
+			current.next.prior = current;
 		} else {
-			// insert before current
-			Node n = new Node((E) d.clone(), current.prior, current);
+			// insert after current, where current.next exists
+			Node n = new Node((E) d.clone(), current, current.next);
 			current = n;
-			current.prior.next = current;
-			current.prior = current;
+			current.next = current.next.prior = n;
 		}
 		return this;
 	}
@@ -65,7 +75,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public List<E> remove() {
-		//switch statement?
+		// switch statement?
 		if (first == last) {
 			init();
 		} else if (current == first) {
@@ -84,24 +94,27 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public boolean find(E d) {
-		if (!goToFirst())
-			return false;
+		boolean result = false;
 
-		do {
-			if (d.compareTo(current.data) == 0)
-				return true;
+		if (goToFirst()) {
+			result = recursiveFind(d);
+		}
 
-			// if d < current.data, d can only be in previous nodes
-			if (d.compareTo(current.data) == -1) {
-				if (current.prior != null) {
-					current = current.prior;
-				} else {
-					return false;
-				}
+		return result;
+	}
+
+	private boolean recursiveFind(E d) {
+
+		if (current.data.compareTo(d) < 0) {
+			if (goToNext()) {
+				return recursiveFind(d);
 			}
-		} while (goToNext());
+		} else if (current.data.compareTo(d) == 0) {
+			return true;
+		} else {
+			return false;
+		}
 
-		// here only if d > last.data, so d is not in List
 		return false;
 	}
 

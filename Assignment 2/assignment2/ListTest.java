@@ -55,9 +55,12 @@ public class ListTest {
         list.insert(new Letter('a'));
         assertEquals("List of one element should have size 1", 1, list.size());
 
+        char j = 'a';
         // Add 200 items to the list.
         for (int i = 0; i < 200; i++) {
-            list.insert(new Letter('a'));
+        	j++;
+        	System.out.println("Type " + j);
+            list.insert(new Letter(j));
         }
         assertEquals("Adding many elements should result in a long list", 201, list.size());
 
@@ -109,11 +112,17 @@ public class ListTest {
         list.goToLast();
         assertEquals(k, list.retrieve());
 
-
         // Insert between two items.
         // The order has to be preserved when inserting an item between existing items.
         Letter b = new Letter('b');
         list.insert(b);
+        
+        list.goToFirst();
+        while(true) {
+        	System.out.println(list.retrieve().letter);
+        	if(list.goToNext()) {} else {break;}
+        }
+        
         list.goToFirst();
         assertEquals(a, list.retrieve());
         list.goToNext();
@@ -222,7 +231,6 @@ public class ListTest {
 
         // Test on list with some elements.
         assertTrue(list.goToFirst());
-
         assertEquals(a, list.retrieve());
 
         // TODO: You can add more of your own tests.
@@ -296,7 +304,7 @@ public class ListTest {
         list.insert(b);
         list.insert(c);
         list.insert(d);
-
+        
         // Test on last element
         list.goToLast();
         assertTrue(list.goToPrevious());
