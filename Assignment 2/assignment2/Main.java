@@ -7,7 +7,7 @@ public class Main {
 	
 	public static final String DEFAULT_DELIMITER = "";
 	public static final char OPEN = '{', CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')',
-			QUESTION = '?', COMMENT = '/', EQUALS = '=', SPACE = ' ',
+			QUESTION = '?', COMMENT = '/', ASSIGN = '=', SPACE = ' ',
 			UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|';
 	Scanner in;
 	
