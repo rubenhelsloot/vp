@@ -2,7 +2,7 @@ package assignment2;
 
 public class List<E extends Data<E>> implements ListInterface<E> {
 
-	private Node first, last, current;
+	public Node first, last, current;
 
 	List() {
 		init();
@@ -40,30 +40,26 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public List<E> insert(E d) {
-		
-		if(find(d)) {
-			remove();
-		}
-
 		if (current == null) {
 			// Insert in empty list
 			Node n = new Node((E) d.clone());
 			first = last = current = n;
-		} else if (current == last) {
+		} else if (last.data.compareTo(d) < 0) {
 			// Insert at the end of the list
 			Node n = new Node((E) d.clone(), last, null);
-			last = current = n;
+			current = last = n;
 			current.prior.next = current;
-		} else if (current == first) {
+		} else if (first.data.compareTo(d) > 0) {
 			// Insert at the beginning of the list
 			Node n = new Node((E) d.clone(), null, first);
-			first = current = n;
+			current = first = n;
 			current.next.prior = current;
 		} else {
 			// insert after current, where current.next exists
-			Node n = new Node((E) d.clone(), current, current.next);
+			find(d);
+			Node n = new Node((E) d.clone(), current.prior, current);
 			current = n;
-			current.next = current.next.prior = n;
+			current.next.prior = current.prior.next = n;
 		}
 		return this;
 	}
@@ -108,14 +104,15 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		if (current.data.compareTo(d) < 0) {
 			if (goToNext()) {
 				return recursiveFind(d);
+			} else {
+				return false;
 			}
 		} else if (current.data.compareTo(d) == 0) {
 			return true;
 		} else {
+			//current.data is bigger than d and was never equal to d, and therefore d is not in the list 
 			return false;
 		}
-
-		return false;
 	}
 
 	@Override
@@ -162,10 +159,10 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		return copy;
 	}
 
-	private class Node {
+	public class Node {
 
 		E data;
-		Node prior, next;
+		public Node prior, next;
 
 		public Node(E d) {
 			this(d, null, null);

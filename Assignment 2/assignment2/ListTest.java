@@ -59,7 +59,7 @@ public class ListTest {
         // Add 200 items to the list.
         for (int i = 0; i < 200; i++) {
         	j++;
-        	System.out.println("Type " + j);
+//        	System.out.println("Type " + j);
             list.insert(new Letter(j));
         }
         assertEquals("Adding many elements should result in a long list", 201, list.size());
@@ -120,8 +120,18 @@ public class ListTest {
         list.goToFirst();
         while(true) {
         	System.out.println(list.retrieve().letter);
-        	if(list.goToNext()) {} else {break;}
+//        	if(list.current != list.first) System.out.println(list.current.prior);
+//        	System.out.println(list.current);
+//        	if(list.current != list.last) System.out.println(list.current.next);
+        	if(!list.goToNext()) break;
         }
+        
+//        System.out.println(list.find(f));
+//        System.out.println(list.current);
+//        System.out.println(list.current.prior);
+//        System.out.println(list.current.prior.prior);
+//        System.out.println(list.current.prior);
+//        System.out.println(list.current.prior.next);
         
         list.goToFirst();
         assertEquals(a, list.retrieve());
