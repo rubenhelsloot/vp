@@ -36,7 +36,7 @@ public class Main {
 
 	private void removeWhiteSpace(Scanner in) {
 		while (hasNextCharIsSpecial(in, SPACE)) {
-			in.next(); // Move over the whitespace
+			nextChar(in); // Move over the whitespace
 		}
 	}
 
@@ -95,7 +95,7 @@ public class Main {
 		if (!firstElement(in)) {
 			return false;
 		} else {
-			in.next();
+			nextChar(in);
 		}
 
 		removeWhiteSpace(in);
@@ -107,7 +107,7 @@ public class Main {
 			}
 		}
 
-		in.next();
+		nextChar(in);
 		removeWhiteSpace(in);
 		if (hasNextCharIsNewLine(in)) {
 			in.nextLine();
