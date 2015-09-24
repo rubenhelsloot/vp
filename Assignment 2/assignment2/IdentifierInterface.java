@@ -13,17 +13,17 @@
  *	Identifier();
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>The char c is a letter.
- *		<dt><b>POST-condition</b><dd>The new Identifier<E> contains the char c.
+ *		<dt><b>POST-condition</b><dd>The new Identifier contains the char c.
  *	    </dl>
  *	<br>
- *	Identifier(Identifier<E> origin);
+ *	Identifier(Identifier origin);
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>-
- *		<dt><b>POST-condition</b><dd>The content of the new Identifier<E> is a clone of the Identifier<E> origin
+ *		<dt><b>POST-condition</b><dd>The content of the new Identifier is a clone of the Identifier origin
  *	    </dl>
  */
 
-public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identifier<E>> {
+public interface IdentifierInterface extends Data<Identifier> {
 
 	/*
 	 * Initializes the Identifier-object to an identifier with one character.
@@ -33,7 +33,7 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition The identifier has been initialized with a character c.
 	 */
 
-	Identifier<E> init();
+	Identifier init();
 
 	/*
 	 * Adds a character to the Identifier
@@ -43,14 +43,14 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition The character has been added to the back of the Identifier.
 	 */
 
-	Identifier<E> add(char c);
+	Identifier add(char c);
 
 	/*
 	 * Returns the Identifier.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The Identifier<E> has been returned.
+	 * @postcondition The Identifier has been returned.
 	 */
 
 	StringBuffer get();
@@ -60,7 +60,7 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The length of the Identifier<E> has been returned.
+	 * @postcondition The length of the Identifier has been returned.
 	 */
 	int getSize();
 	
@@ -72,5 +72,5 @@ public interface IdentifierInterface<E extends Data<E>> extends Clonable<Identif
 	 * @postcondition Returns true if the identifiers are equal. Returns false
 	 * if the identifiers are not equal.
 	 */
-	boolean equals(Identifier<E> id);
+	boolean equals(Identifier id);
 }

@@ -1,6 +1,6 @@
 package assignment2;
 
-class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
+class Identifier implements IdentifierInterface {
 	
 	StringBuffer sb;
 
@@ -9,13 +9,13 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	}
 
 	@Override
-	public Identifier<E> init() {
+	public Identifier init() {
 		sb.delete(0, getSize());
 		return this;
 	}
 
 	@Override
-	public Identifier<E> add(char c) {
+	public Identifier add(char c) {
 		sb.append(c);
 		return this;
 	}
@@ -31,18 +31,18 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	}
 
 	@Override
-	public boolean equals(Identifier<E> id) {
+	public boolean equals(Identifier id) {
 		if(compareTo(id) == 0) return true;
 		return false;
 	}
 
-	public int compareTo(Identifier<E> d) {
+	public int compareTo(Identifier d) {
 		return sb.toString().compareTo(d.sb.toString());
 	}
 
 	@Override
-	public Identifier<E> clone() {
-		Identifier<E> idenClone = new Identifier<E>();
+	public Identifier clone() {
+		Identifier idenClone = new Identifier();
 		idenClone.init();
 		
 		for(int i = 0; i < sb.length(); i++) {
