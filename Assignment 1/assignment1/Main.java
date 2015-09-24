@@ -10,13 +10,6 @@ public class Main {
 			QUESTION_TWO = "Give the second set: ";
 	public static final char OPEN = '{', CLOSE = '}', SPACE = ' ';
 
-	private Scanner in;
-
-	Main() {
-		in = new Scanner(System.in);
-		in.useDelimiter(DEFAULT_DELIMITER);
-	}
-
 	private char nextChar(Scanner in) {
 		return in.next().charAt(0);
 	}
@@ -126,7 +119,7 @@ public class Main {
 		return false;
 	}
 
-	private boolean question(String question, Set answer) {
+	private boolean question(Scanner in, String question, Set answer) {
 		do {
 			answer.init();
 			System.out.print(question);
@@ -140,7 +133,9 @@ public class Main {
 	}
 
 	private boolean input(Set first, Set second) {
-		return question(QUESTION_ONE, first) && question(QUESTION_TWO, second);
+		Scanner in = new Scanner(System.in);
+		in.useDelimiter(DEFAULT_DELIMITER);
+		return question(in, QUESTION_ONE, first) && question(in, QUESTION_TWO, second);
 	}
 
 	private void print(Set answer, String prelude) {
@@ -164,17 +159,17 @@ public class Main {
 		second = new Set();
 
 		first.init();
-		second.init(); 
+		second.init();
 
 		while (input(first, second)) {
 			try {
-			print(first.union(second), "Union");
-			print(first.difference(second), "Difference");
-			print(first.intersection(second), "Intersection");
-			print(first.symmetricDifference(second), "Symmetric difference");
-			} catch(Exception e) {
-				System.out.println("The program was unable to construct a valid result for you and provided"+
-						" the following error message");
+				print(first.union(second), "Union");
+				print(first.difference(second), "Difference");
+				print(first.intersection(second), "Intersection");
+				print(first.symmetricDifference(second), "Symmetric difference");
+			} catch (Exception e) {
+				System.out.println("The program was unable to construct a valid result for you and provided"
+						+ " the following error message");
 				System.out.println(e);
 			}
 		}

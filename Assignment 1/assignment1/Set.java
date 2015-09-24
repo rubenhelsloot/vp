@@ -134,24 +134,12 @@ class Set implements SetInterface {
 
 	@Override
 	public Set intersection(Set S) {
-		Set inputSet = new Set(S);
-		Set intersection = new Set();
-		
-		while(inputSet.getSize() > 0) {
-			Identifier currentIdentifier = inputSet.getRemove();
-			if(this.contains(currentIdentifier)) {
-				intersection.addElement(currentIdentifier);
-			}
-		}
-		return intersection;
+		return difference(difference(S));
 	}
 
 	@Override
 	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException {
-		Set difference1 = new Set(this.difference(S));
-		Set difference2 = new Set(S.difference(this));
-		Set symmDiffSet = new Set(difference1.union(difference2));
-		return symmDiffSet;
+		return difference(S).union(S.difference(this));
 	}
 
 }
