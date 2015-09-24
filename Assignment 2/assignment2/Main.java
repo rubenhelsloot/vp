@@ -149,8 +149,8 @@ public class Main {
 
 		Set<NaturalNumber> set1 = readPartial(in);
 		removeWhiteSpace(in);
-		
-		if(in.hasNext()) {
+
+		if (in.hasNext()) {
 			char operator = nextChar(in);
 			removeWhiteSpace(in);
 
@@ -162,8 +162,9 @@ public class Main {
 		}
 	}
 
-	private Set<NaturalNumber> parseExpression(Set<NaturalNumber> set1, char operator, Set<NaturalNumber> set2) throws APException {
-		switch(operator) {
+	private Set<NaturalNumber> parseExpression(Set<NaturalNumber> set1, char operator, Set<NaturalNumber> set2)
+			throws APException {
+		switch (operator) {
 		case UNION:
 			return set1.union(set2);
 		case DIFFERENCE:
@@ -187,18 +188,13 @@ public class Main {
 			nextChar(in);
 			removeWhiteSpace(in);
 			Set<NaturalNumber> value = readExpression(in);
-			int piccie = value.getSize();
-			for(int i = 0; i < piccie; i++) {
-				System.out.println(value.getSize() + " piccie is lief");
-				System.out.println(value.getRemove().data.toString());
-			}
-//			table.update(key, value);
+			table.update(key, value);
 		}
 	}
 
 	private void printStatement(Scanner in) {
 		removeWhiteSpace(in);
-		
+		//MORE WORK IS REQUIRED HERE
 	}
 
 	private void readInput(String input) throws APException {
