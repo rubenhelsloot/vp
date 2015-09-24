@@ -1,0 +1,31 @@
+Last lecture: Wednesday on week 41
+
+//Remove the only node
+l --> [1] --> =
+l = null;
+l --> =
+
+A list is a recursive data structure
+
+A list is
+	- empty
+	- contains 1 node that points to a list (recursion)
+	
+//Some code that was implemented into List.java
+
+Assignment operator: '='
+a = b = 7; //Evaluated right to left
+
+List is doubly linked because removal is a lot quicker
+
+EBNF: Extended Bachers Nauer format
+Terminals --> between '' quotes --> literal
+Non-terminals --> have to be defined
+
+capitalA = 'A';
+a b --> first a and then b
+a | b --> a or b
+[a] --> a yes or no € [0,1]
+{a} --> a >= 0 € [0,∞)
+a{a} --> a >= 1 € [1,∞)
+
