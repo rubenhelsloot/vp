@@ -16,7 +16,7 @@ class Identifier implements IdentifierInterface {
 
 	@Override
 	public Identifier init(char c) {
-		sb.delete(0, MAX_ID_SIZE);
+		sb.delete(0, getSize());
 		sb.append(c);
 		return this;
 	}
