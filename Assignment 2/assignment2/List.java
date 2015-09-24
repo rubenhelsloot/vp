@@ -2,7 +2,7 @@ package assignment2;
 
 public class List<E extends Data<E>> implements ListInterface<E> {
 
-	public Node first, last, current;
+	Node first, last, current;
 
 	List() {
 		init();
@@ -159,10 +159,10 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		return copy;
 	}
 
-	public class Node {
+	private class Node {
 
 		E data;
-		public Node prior, next;
+		Node prior, next;
 
 		public Node(E d) {
 			this(d, null, null);

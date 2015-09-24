@@ -116,23 +116,7 @@ public class ListTest {
         // The order has to be preserved when inserting an item between existing items.
         Letter b = new Letter('b');
         list.insert(b);
-        
-        list.goToFirst();
-        while(true) {
-        	System.out.println(list.retrieve().letter);
-//        	if(list.current != list.first) System.out.println(list.current.prior);
-//        	System.out.println(list.current);
-//        	if(list.current != list.last) System.out.println(list.current.next);
-        	if(!list.goToNext()) break;
-        }
-        
-//        System.out.println(list.find(f));
-//        System.out.println(list.current);
-//        System.out.println(list.current.prior);
-//        System.out.println(list.current.prior.prior);
-//        System.out.println(list.current.prior);
-//        System.out.println(list.current.prior.next);
-        
+                
         list.goToFirst();
         assertEquals(a, list.retrieve());
         list.goToNext();
