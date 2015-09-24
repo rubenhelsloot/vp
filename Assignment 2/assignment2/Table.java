@@ -37,10 +37,10 @@ public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInt
 	@Override
 	public V getValue(K key) throws APException {
 		if (find(key)) {
-			return entry.retrieve().getValue(key);
+			return entry.retrieve().getValue();
 		} else {
 			throw new APException(
-					"The value associated with key " + key + "was failed to retrieve as the key was not found.");
+					"The value associated with key " + key + " was failed to retrieve as the key was not found.");
 		}
 	}
 

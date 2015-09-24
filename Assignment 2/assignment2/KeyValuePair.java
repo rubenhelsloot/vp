@@ -14,7 +14,7 @@ public class KeyValuePair<K extends Data<K>, V extends Clonable<V>> implements D
 		return key;
 	}
 	
-	public V getValue(K key) {
+	public V getValue() {
 		return value;
 	}
 	
