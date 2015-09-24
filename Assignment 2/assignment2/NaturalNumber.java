@@ -13,9 +13,10 @@ public class NaturalNumber implements NaturalNumberInterface  {
 	@Override
 	public NaturalNumber clone() {
 		NaturalNumber NClone = new NaturalNumber();
-		NClone.init(data.charAt(0));
 		
-		for(int i = 1; i < data.length(); i++) {
+		NClone.init();
+		
+		for(int i = 0; i < data.length(); i++) {
 			NClone.add(data.charAt(i));
 		}
 		return NClone;
@@ -27,14 +28,13 @@ public class NaturalNumber implements NaturalNumberInterface  {
 	}
 
 	@Override
-	public NaturalNumber init(char c) {
-		data = new StringBuffer(c);
+	public NaturalNumber init() {
+		data = new StringBuffer();
 		return this;
 	}
 
 	@Override
 	public NaturalNumber add(char c) {
-		data.delete(0, MAX_NUMBER_SIZE);
 		data.append(c);
 		return this;
 	}

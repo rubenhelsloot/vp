@@ -20,14 +20,14 @@ package assignment2;
 public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	
 	/*
-	 * Initializes the NaturalNumber and sets its contents to char c.
+	 * Initializes the NaturalNumber and sets its contents to an empty stringbuffer.
 	 * 
-	 * @precondition The char c is numerical
+	 * @precondition -
 	 * 
-	 * @postcondition A NaturalNumber now contains c
+	 * @postcondition A NaturalNumber is now empty
 	 */
 	
-	NaturalNumber init(char c);
+	NaturalNumber init();
 	
 	/*
 	 * Adds the char c to the NaturalNumber. 
