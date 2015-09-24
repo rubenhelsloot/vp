@@ -4,16 +4,14 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Main {
-	
+
 	public static final String DEFAULT_DELIMITER = "";
-	public static final char OPEN = '{', CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')',
-			QUESTION = '?', COMMENT = '/', ASSIGN = '=', SPACE = ' ',
-			UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|';
-	Scanner in;
+	public static final char OPEN = '{', CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
+			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|';
+	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
 	
 	Main() {
-		in = new Scanner(System.in);
-		in.useDelimiter(DEFAULT_DELIMITER);
+		table.init();
 	}
 	
 	private char nextChar(Scanner in) {
@@ -50,19 +48,100 @@ public class Main {
 		System.out.println(s);
 		in.nextLine();
 	}
-	
-	void readInput(Scanner in) {
+
+	private Identifier readIdentifier(Scanner in) throws APException {
+		removeWhiteSpace(in);
+		Identifier result = new Identifier();
+		result.init();
+
+		if (hasNextCharIsLetter(in)) {
+			result.add(nextChar(in));
+		} else {
+			throw new APException("Identifiers should start with a letter");
+		}
+
+		while (hasNextCharIsAlphaNumerical(in)) {
+			result.add(nextChar(in));
+		}
+
+		return result;
+	}
+
+	private NaturalNumber readNaturalNumber(Scanner in) throws APException {
+		removeWhiteSpace(in);
+		NaturalNumber result = new NaturalNumber();
 		
+		if(hasNextCharIsSpecial(in, '0')) {
+			result.init(nextChar(in));
+			if(hasNextCharIsDigit(in)) {
+				throw new APException("Nonzero numbers should never start with a zero.");
+			} else {
+				return result;
+			}
+		}
+		
+		result.init(nextChar(in));
+		while(hasNextCharIsDigit(in)) {
+			result.add(nextChar(in));
+		}
+		
+		return result;
+	}
+
+	private void saveStatement(Scanner in) throws APException {
+		Identifier key = readIdentifier(in);
+		removeWhiteSpace(in);
+		
+		if(!hasNextCharIsSpecial(in, ASSIGN)) {
+			throw new APException("A value should be assigned here");
+		} else {
+			nextChar(in);
+			removeWhiteSpace(in);
+		}
+		
+		if()
 	}
 	
-	void start() {
-		readInput(in);
+	private void printStatement(Scanner in) {
+		removeWhiteSpace(in);
+	}
+
+	private void readInput(String input) throws APException {
+		Scanner parser = new Scanner(input);
+		parser.useDelimiter(DEFAULT_DELIMITER);
+
+		if (parser.hasNext()) {
+			removeWhiteSpace(parser);
+
+			if (!parser.hasNext())
+				throw new APException("Line should not be empty");
+
+			if (hasNextCharIsSpecial(parser, COMMENT)) {
+				return;
+			} else if (hasNextCharIsSpecial(parser, QUESTION)) {
+				nextChar(parser);
+				printStatement(parser);
+			} else if (hasNextCharIsLetter(parser)) {
+				saveStatement(parser);
+			} else
+				throw new APException("Start of line is invalid");
+		}
+	}
+
+	private void start() {
+		Scanner in = new Scanner(System.in);
+		while (in.hasNextLine()) {
+			try {
+				readInput(in.nextLine());
+			} catch (APException e) {
+				System.out.println(e);
+			}
+		}
+		in.close();
 	}
 
 	public static void main(String[] args) {
-		while(true) {
-			new Main().start();
-		}
+		new Main().start();
 	}
 
 }
