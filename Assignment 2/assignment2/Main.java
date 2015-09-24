@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class Main {
 
 	public static final String DEFAULT_DELIMITER = "";
-	public static final char OPEN = '{', CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
+	public static final char SET_OPEN = '{', SET_CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
 			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|',
 			SET_DELIMITER = ',';
 	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
@@ -73,7 +73,7 @@ public class Main {
 		NaturalNumber result = new NaturalNumber();
 
 		if (hasNextCharIsSpecial(in, '0')) {
-			result.init(nextChar(in));
+			result.init().add(nextChar(in));
 			if (hasNextCharIsDigit(in)) {
 				throw new APException("Nonzero numbers should never start with a zero.");
 			} else {
@@ -81,7 +81,7 @@ public class Main {
 			}
 		}
 
-		result.init(nextChar(in));
+		result.init();
 		while (hasNextCharIsDigit(in)) {
 			result.add(nextChar(in));
 		}
@@ -89,17 +89,20 @@ public class Main {
 		return result;
 	}
 
-	private Set<NaturalNumber> readExpression(Scanner in) throws APException {
+	private Set<NaturalNumber> readSet(Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		result.init();
 
-		if (hasNextCharIsSpecial(in, OPEN)) {
+		if (hasNextCharIsSpecial(in, SET_OPEN)) {
 			nextChar(in);
 			removeWhiteSpace(in);
 
-			while (!hasNextCharIsSpecial(in, CLOSE)) {
+			// Might need to be if statement, debug by counting number of loops
+			while (!hasNextCharIsSpecial(in, SET_CLOSE)) {
 				removeWhiteSpace(in);
 				result.addElement(readNaturalNumber(in));
+				removeWhiteSpace(in);
+
 				while (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 					nextChar(in);
 					removeWhiteSpace(in);
@@ -107,16 +110,71 @@ public class Main {
 					removeWhiteSpace(in);
 				}
 			}
+			nextChar(in);
 
 		} else if (hasNextCharIsLetter(in)) {
-
 			Identifier key = readIdentifier(in);
 			result = table.getValue(key).clone();
 
-		} else
+		} else {
 			throw new APException("An expression should either start with a set or the name of a saved set");
+		}
 
 		return result;
+	}
+
+	private Set<NaturalNumber> readPartial(Scanner in) throws APException {
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		result.init();
+
+		if (hasNextCharIsSpecial(in, INNER_OPEN)) {
+			nextChar(in);
+			removeWhiteSpace(in);
+
+			while (!hasNextCharIsSpecial(in, INNER_CLOSE)) {
+				result = readExpression(in);
+			}
+			nextChar(in);
+		} else {
+			result = readSet(in);
+		}
+
+		return result;
+	}
+
+	private Set<NaturalNumber> readExpression(Scanner in) throws APException {
+		// Set<NaturalNumber> result = new Set<NaturalNumber>();
+		// result.init();
+		removeWhiteSpace(in);
+
+		Set<NaturalNumber> set1 = readPartial(in);
+		removeWhiteSpace(in);
+		
+		if(in.hasNext()) {
+			char operator = nextChar(in);
+			removeWhiteSpace(in);
+
+			Set<NaturalNumber> set2 = readPartial(in);
+
+			return parseExpression(set1, operator, set2);
+		} else {
+			return set1;
+		}
+	}
+
+	private Set<NaturalNumber> parseExpression(Set<NaturalNumber> set1, char operator, Set<NaturalNumber> set2) throws APException {
+		switch(operator) {
+		case UNION:
+			return set1.union(set2);
+		case DIFFERENCE:
+			return set1.difference(set2);
+		case INTERSECTION:
+			return set1.intersection(set2);
+		case SYM_DIFF:
+			return set1.symmetricDifference(set2);
+		default:
+			throw new APException("The operator was invalid " + operator);
+		}
 	}
 
 	private void saveStatement(Scanner in) throws APException {
@@ -129,12 +187,18 @@ public class Main {
 			nextChar(in);
 			removeWhiteSpace(in);
 			Set<NaturalNumber> value = readExpression(in);
-			table.update(key, value);
+			int piccie = value.getSize();
+			for(int i = 0; i < piccie; i++) {
+				System.out.println(value.getSize() + " piccie is lief");
+				System.out.println(value.getRemove().data.toString());
+			}
+//			table.update(key, value);
 		}
 	}
 
 	private void printStatement(Scanner in) {
 		removeWhiteSpace(in);
+		
 	}
 
 	private void readInput(String input) throws APException {
