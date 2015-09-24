@@ -7,13 +7,14 @@ public class Main {
 
 	public static final String DEFAULT_DELIMITER = "";
 	public static final char OPEN = '{', CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
-			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|';
+			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|',
+			SET_DELIMITER = ',';
 	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
-	
+
 	Main() {
 		table.init();
 	}
-	
+
 	private char nextChar(Scanner in) {
 		return in.next().charAt(0);
 	}
@@ -70,38 +71,68 @@ public class Main {
 	private NaturalNumber readNaturalNumber(Scanner in) throws APException {
 		removeWhiteSpace(in);
 		NaturalNumber result = new NaturalNumber();
-		
-		if(hasNextCharIsSpecial(in, '0')) {
+
+		if (hasNextCharIsSpecial(in, '0')) {
 			result.init(nextChar(in));
-			if(hasNextCharIsDigit(in)) {
+			if (hasNextCharIsDigit(in)) {
 				throw new APException("Nonzero numbers should never start with a zero.");
 			} else {
 				return result;
 			}
 		}
-		
+
 		result.init(nextChar(in));
-		while(hasNextCharIsDigit(in)) {
+		while (hasNextCharIsDigit(in)) {
 			result.add(nextChar(in));
 		}
-		
+
+		return result;
+	}
+
+	private Set<NaturalNumber> readExpression(Scanner in) throws APException {
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		result.init();
+
+		if (hasNextCharIsSpecial(in, OPEN)) {
+			nextChar(in);
+			removeWhiteSpace(in);
+
+			while (!hasNextCharIsSpecial(in, CLOSE)) {
+				removeWhiteSpace(in);
+				result.addElement(readNaturalNumber(in));
+				while (hasNextCharIsSpecial(in, SET_DELIMITER)) {
+					nextChar(in);
+					removeWhiteSpace(in);
+					result.addElement(readNaturalNumber(in));
+					removeWhiteSpace(in);
+				}
+			}
+
+		} else if (hasNextCharIsLetter(in)) {
+
+			Identifier key = readIdentifier(in);
+			result = table.getValue(key).clone();
+
+		} else
+			throw new APException("An expression should either start with a set or the name of a saved set");
+
 		return result;
 	}
 
 	private void saveStatement(Scanner in) throws APException {
 		Identifier key = readIdentifier(in);
 		removeWhiteSpace(in);
-		
-		if(!hasNextCharIsSpecial(in, ASSIGN)) {
+
+		if (!hasNextCharIsSpecial(in, ASSIGN)) {
 			throw new APException("A value should be assigned here");
 		} else {
 			nextChar(in);
 			removeWhiteSpace(in);
+			Set<NaturalNumber> value = readExpression(in);
+			table.update(key, value);
 		}
-		
-		if()
 	}
-	
+
 	private void printStatement(Scanner in) {
 		removeWhiteSpace(in);
 	}
