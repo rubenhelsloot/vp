@@ -9,9 +9,8 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	}
 
 	@Override
-	public Identifier<E> init(char c) {
+	public Identifier<E> init() {
 		sb.delete(0, getSize());
-		sb.append(c);
 		return this;
 	}
 
@@ -44,9 +43,9 @@ class Identifier<E extends Data<E>> implements IdentifierInterface<E> {
 	@Override
 	public Identifier<E> clone() {
 		Identifier<E> idenClone = new Identifier<E>();
-		idenClone.init(sb.charAt(0));
+		idenClone.init();
 		
-		for(int i = 1; i < sb.length(); i++) {
+		for(int i = 0; i < sb.length(); i++) {
 			idenClone.add(sb.charAt(i));
 		}
 		
