@@ -35,10 +35,6 @@ public class Main {
 		return (hasNextCharIsDigit(in) || hasNextCharIsLetter(in));
 	}
 
-	private boolean hasNextCharIsNewLine(Scanner in) {
-		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r');
-	}
-
 	private void removeWhiteSpace(Scanner in) {
 		while (hasNextCharIsSpecial(in, SPACE)) {
 			in.next(); // Move over the whitespace
@@ -129,6 +125,7 @@ public class Main {
 			result = table.getValue(key).clone();
 
 		} else {
+			System.out.println("Input:" + in.next());
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
 				
@@ -162,13 +159,17 @@ public class Main {
 			removeWhiteSpace(in);
 
 			while (!hasNextCharIsSpecial(in, INNER_CLOSE)) {
+				if(!in.hasNext()) {
+					throw new APException("No closing bracket was found");
+				}
+				
 				result = readExpression(in);
 			}
 			nextChar(in);
 		} else {
 			result = readSet(in);
 		}
-
+		
 		return result;
 	}
 
@@ -180,7 +181,7 @@ public class Main {
 		Set<NaturalNumber> set1 = readPartial(in);
 		removeWhiteSpace(in);
 		
-		if (in.hasNext()) {
+		if (in.hasNext() && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
 			char operator = nextChar(in);
 			removeWhiteSpace(in);
 
