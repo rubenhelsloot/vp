@@ -131,8 +131,24 @@ public class Main {
 		} else {
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
+		
+		removeWhiteSpace(in);
+		if(!hasNextCharIsSpecial(in, INTERSECTION)) {
+			return result;
+		} else {
+			return readPriorityPartial(result, in);
+		}
+	}
+	
+	private Set<NaturalNumber> readPriorityPartial(Set<NaturalNumber> set1, Scanner in) throws APException {
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		result.init();
+		
+		char operator = nextChar(in);
 
-		return result;
+		Set<NaturalNumber> set2 = readPartial(in);
+
+		return parseExpression(set1, operator, set2);
 	}
 
 	private Set<NaturalNumber> readPartial(Scanner in) throws APException {
