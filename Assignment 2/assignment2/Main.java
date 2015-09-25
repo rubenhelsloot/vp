@@ -131,21 +131,23 @@ public class Main {
 		} else {
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
-		
+				
 		removeWhiteSpace(in);
 		if(!hasNextCharIsSpecial(in, INTERSECTION)) {
 			return result;
 		} else {
-			return readPriorityPartial(result, in);
+			return readPartialExpression(result, in);
 		}
 	}
 	
-	private Set<NaturalNumber> readPriorityPartial(Set<NaturalNumber> set1, Scanner in) throws APException {
+	private Set<NaturalNumber> readPartialExpression(Set<NaturalNumber> set1, Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		result.init();
 		
+		removeWhiteSpace(in);
 		char operator = nextChar(in);
 
+		removeWhiteSpace(in);
 		Set<NaturalNumber> set2 = readPartial(in);
 
 		return parseExpression(set1, operator, set2);
@@ -183,7 +185,7 @@ public class Main {
 			removeWhiteSpace(in);
 
 			Set<NaturalNumber> set2 = readPartial(in);
-
+			
 			return parseExpression(set1, operator, set2);
 		} else {
 			return set1;
@@ -216,6 +218,13 @@ public class Main {
 			nextChar(in);
 			removeWhiteSpace(in);
 			Set<NaturalNumber> value = readExpression(in);
+			removeWhiteSpace(in);
+						
+			while(in.hasNext()) {
+				value = readPartialExpression(value, in);
+				removeWhiteSpace(in);
+			}
+			
 			table.update(key, value);
 		}
 	}
@@ -224,11 +233,16 @@ public class Main {
 		removeWhiteSpace(in);
 		
 		Set<NaturalNumber> value = readExpression(in);
+				
+		while(in.hasNext()) {
+			value = readPartialExpression(value, in);
+			removeWhiteSpace(in);
+		}
+		
 		printSet(value);
 	}
 
 	private void readInput(String input) throws APException {
-		System.out.println(input);
 		Scanner parser = new Scanner(input);
 		parser.useDelimiter(DEFAULT_DELIMITER);
 
