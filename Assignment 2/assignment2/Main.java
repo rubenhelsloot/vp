@@ -45,9 +45,21 @@ public class Main {
 		}
 	}
 
-	private void errorMessage(String s, Scanner in) {
-		System.out.println(s);
-		in.nextLine();
+	private void printSet(Set<NaturalNumber> S) {
+		StringBuffer result = new StringBuffer().append(SET_OPEN);
+		
+				
+		while(S.getSize() > 0) {
+			NaturalNumber N = S.getRemove();
+			result.append(N.data.toString());
+			
+			if(S.getSize() > 0) {
+				result.append(SET_DELIMITER).append(SPACE);
+			}
+		}
+		
+		result.append(SET_CLOSE);
+		System.out.println(result.toString());
 	}
 
 	private Identifier readIdentifier(Scanner in) throws APException {
@@ -149,7 +161,7 @@ public class Main {
 
 		Set<NaturalNumber> set1 = readPartial(in);
 		removeWhiteSpace(in);
-
+		
 		if (in.hasNext()) {
 			char operator = nextChar(in);
 			removeWhiteSpace(in);
@@ -192,12 +204,15 @@ public class Main {
 		}
 	}
 
-	private void printStatement(Scanner in) {
+	private void printStatement(Scanner in) throws APException {
 		removeWhiteSpace(in);
-		//MORE WORK IS REQUIRED HERE
+		
+		Set<NaturalNumber> value = readExpression(in);
+		printSet(value);
 	}
 
 	private void readInput(String input) throws APException {
+		System.out.println(input);
 		Scanner parser = new Scanner(input);
 		parser.useDelimiter(DEFAULT_DELIMITER);
 
@@ -206,7 +221,6 @@ public class Main {
 
 			if (!parser.hasNext())
 				throw new APException("Line should not be empty");
-
 			if (hasNextCharIsSpecial(parser, COMMENT)) {
 				return;
 			} else if (hasNextCharIsSpecial(parser, QUESTION)) {

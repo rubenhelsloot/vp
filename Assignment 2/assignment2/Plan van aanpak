@@ -6,3 +6,8 @@ On operator read next set, use operation and return resultSet, then go to next o
 After each set, check if operator * is used, if so, parse that operator first
 Store Key Value pair in table
 
+
+
+TODO: ADD PRIORITY TO INTERSECTION
+TODO: ADD OPERATOR CHAINING
+TODO: FIX NUMBER OF ERRORS AT THE END OF THE DOCUMENT
