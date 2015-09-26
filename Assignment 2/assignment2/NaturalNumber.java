@@ -7,7 +7,6 @@ public class NaturalNumber implements NaturalNumberInterface  {
 	
 	NaturalNumber() {
 		data = new StringBuffer();
-		data.append('1');
 	}
 
 	@Override
