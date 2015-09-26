@@ -7,7 +7,6 @@ class Identifier implements IdentifierInterface {
 
 	Identifier() {
 		sb = new StringBuffer();
-		sb.append('1');
 	}
 
 	Identifier(Identifier origin) {
