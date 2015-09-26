@@ -19,6 +19,10 @@ public class Main {
 		return in.next().charAt(0);
 	}
 
+	private boolean hasNextChar(Scanner in) {
+		return in.hasNext();
+	}
+
 	private boolean hasNextCharIsSpecial(Scanner in, char c) {
 		return in.hasNext(Pattern.quote(c + ""));
 	}
@@ -35,25 +39,28 @@ public class Main {
 		return (hasNextCharIsDigit(in) || hasNextCharIsLetter(in));
 	}
 
+	private boolean hasNextCharIsNewLine(Scanner in) {
+		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r') || in.hasNextLine();
+	}
+
 	private void removeWhiteSpace(Scanner in) {
 		while (hasNextCharIsSpecial(in, SPACE)) {
-			in.next(); // Move over the whitespace
+			nextChar(in); // Move over the whitespace
 		}
 	}
 
 	private void printSet(Set<NaturalNumber> S) {
 		StringBuffer result = new StringBuffer().append(SET_OPEN);
-		
-				
-		while(S.getSize() > 0) {
+
+		while (S.getSize() > 0) {
 			NaturalNumber N = S.getRemove();
 			result.append(N.data.toString());
-			
-			if(S.getSize() > 0) {
+
+			if (S.getSize() > 0) {
 				result.append(SET_DELIMITER).append(SPACE);
 			}
 		}
-		
+
 		result.append(SET_CLOSE);
 		System.out.println(result.toString());
 	}
@@ -88,13 +95,17 @@ public class Main {
 				return result;
 			}
 		}
-
+		
 		result.init();
 		while (hasNextCharIsDigit(in)) {
 			result.add(nextChar(in));
 		}
-
-		return result;
+		
+		if(result.getSize() > 0) {
+			return result;
+		} else {
+			return null;
+		}
 	}
 
 	private Set<NaturalNumber> readSet(Scanner in) throws APException {
@@ -105,7 +116,6 @@ public class Main {
 			nextChar(in);
 			removeWhiteSpace(in);
 
-			// Might need to be if statement, debug by counting number of loops
 			while (!hasNextCharIsSpecial(in, SET_CLOSE)) {
 				removeWhiteSpace(in);
 				result.addElement(readNaturalNumber(in));
@@ -118,7 +128,7 @@ public class Main {
 					removeWhiteSpace(in);
 				}
 			}
-			nextChar(in);
+				nextChar(in);
 
 		} else if (hasNextCharIsLetter(in)) {
 			Identifier key = readIdentifier(in);
@@ -128,19 +138,19 @@ public class Main {
 			System.out.println("Input:" + in.next());
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
-				
+
 		removeWhiteSpace(in);
-		if(!hasNextCharIsSpecial(in, INTERSECTION)) {
+		if (!hasNextCharIsSpecial(in, INTERSECTION)) {
 			return result;
 		} else {
 			return readPartialExpression(result, in);
 		}
 	}
-	
+
 	private Set<NaturalNumber> readPartialExpression(Set<NaturalNumber> set1, Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		result.init();
-		
+
 		removeWhiteSpace(in);
 		char operator = nextChar(in);
 
@@ -159,17 +169,17 @@ public class Main {
 			removeWhiteSpace(in);
 
 			while (!hasNextCharIsSpecial(in, INNER_CLOSE)) {
-				if(!in.hasNext()) {
+				if (!hasNextChar(in)) {
 					throw new APException("No closing bracket was found");
 				}
-				
+
 				result = readExpression(in);
 			}
 			nextChar(in);
 		} else {
 			result = readSet(in);
 		}
-		
+
 		return result;
 	}
 
@@ -180,13 +190,13 @@ public class Main {
 
 		Set<NaturalNumber> set1 = readPartial(in);
 		removeWhiteSpace(in);
-		
-		if (in.hasNext() && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
+
+		if (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
 			char operator = nextChar(in);
 			removeWhiteSpace(in);
 
 			Set<NaturalNumber> set2 = readPartial(in);
-			
+
 			return parseExpression(set1, operator, set2);
 		} else {
 			return set1;
@@ -209,7 +219,7 @@ public class Main {
 		}
 	}
 
-	private void saveStatement(Scanner in) throws APException {
+	private void saveAssignment(Scanner in) throws APException {
 		Identifier key = readIdentifier(in);
 		removeWhiteSpace(in);
 
@@ -220,26 +230,26 @@ public class Main {
 			removeWhiteSpace(in);
 			Set<NaturalNumber> value = readExpression(in);
 			removeWhiteSpace(in);
-						
-			while(in.hasNext()) {
+
+			while (hasNextChar(in)) {
 				value = readPartialExpression(value, in);
 				removeWhiteSpace(in);
 			}
-			
+
 			table.update(key, value);
 		}
 	}
 
 	private void printStatement(Scanner in) throws APException {
 		removeWhiteSpace(in);
-		
+
 		Set<NaturalNumber> value = readExpression(in);
-				
-		while(in.hasNext()) {
+
+		while (hasNextChar(in)) {
 			value = readPartialExpression(value, in);
 			removeWhiteSpace(in);
 		}
-		
+
 		printSet(value);
 	}
 
@@ -258,7 +268,7 @@ public class Main {
 				nextChar(parser);
 				printStatement(parser);
 			} else if (hasNextCharIsLetter(parser)) {
-				saveStatement(parser);
+				saveAssignment(parser);
 			} else
 				throw new APException("Start of line is invalid");
 		}
@@ -266,11 +276,11 @@ public class Main {
 
 	private void start() {
 		Scanner in = new Scanner(System.in);
-		while (in.hasNextLine()) {
+		while (hasNextCharIsNewLine(in)) {
 			try {
 				readInput(in.nextLine());
 			} catch (APException e) {
-				System.out.println(e);
+				System.out.println(e.toString());
 			}
 		}
 		in.close();
