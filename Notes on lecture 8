@@ -1,0 +1,129 @@
+How to write a parser when you're given the syntax of the input in EBNF.
+ 
+----
+The input has to meet the following syntax.
+
+tow = '<' students '>' <eoln> ;
+students = student { '-' student } ;
+student = studentnumber ';' data ';' ;
+studentnumber = number number number ;
+number = '0' | '1' | '2' | '3' ;
+data = sign { sign } ;
+sign = <any character except a semicolon> ;
+ 
+----
+
+; at end of data ends line, because <eoln> (end of line) could also be in data.
+; in data ==> ';'
+<if I cannot write all possible inputs, I can describe it within these brackets>
+
+----
+ 
+Summon in a program:
+  
+String row = in.nextLine();
+Scanner rowScanner = new Scanner(row);
+ 
+try {
+    StudentRow studentsRow = row(rowScanner);
+} catch (VPException e) {
+    throw new Error("........");
+}
+ 
+-----
+ 
+implementation:
+ 
+StudentRow row (Scanner input) throws VPException {
+    character(input, '<');
+    StudentRow row = students(input);
+    character(input, '>');
+    eoln(input);
+ 
+    return row;
+}
+ 
+ 
+void character (Scanner input, char c) throws VPException {
+    if (! nextCharIs(input, c)) {
+	throw new VPException("........");
+    }
+ 
+    nextChar(input);
+}
+ 
+ 
+void eoln (Scanner input) throws VPException {
+    if (input.hasNext()) {
+	throw new VPException("........");
+    }
+}
+ 
+ 
+StudentRow students (Scanner input) throws VPException {
+    StudentRow result = new StudentRow();
+ 
+    result.add(student(input));
+ 
+    while (nextCharIs(input, '-')) {
+	character(input, '-');
+        result.add(student(input));
+    }
+ 
+    return result;
+}
+ 
+ 
+Student student (Scanner input) throws VPException {
+    Student result = new Student();
+ 
+    result.putstudentnumber(studentnumber(input));
+    character(input, ';');
+    result.putData(data(input));
+    character(input, ';');
+ 
+    return result;
+}
+ 
+ 
+StringBuffer studentnumber (Scanner input) throws VPException {
+    StringBuffer result = new StringBuffer();
+ 
+    result.append(number(input));
+    result.append(number(input));
+    result.append(number(input));
+ 
+    return result;
+}
+ 
+
+char number (Scanner input) throws VPException {
+    if (! input.hasNext("[0-3]")) {
+	throw new VPException("........");
+    }
+ 
+    return nextChar(input);
+}
+ 
+ 
+StringBuffer data (Scanner input) throws VPException {
+    StringBuffer result = new StringBuffer();
+ 
+    result.append(sign(input));
+ 
+    while (! nextCharIs(input, ';')) {
+        result.append(sign(input));
+    }
+ 
+    return result;
+}
+ 
+ 
+char sign (Scanner input) throws VPException {
+    if (nextCharIs(input, ';')) {
+	throw new VPException("........");
+    }
+ 
+    return nextChar(input);
+ 
+}
