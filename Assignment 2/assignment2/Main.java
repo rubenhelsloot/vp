@@ -43,9 +43,9 @@ public class Main {
 		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r') || in.hasNextLine();
 	}
 
-	private void removeWhiteSpace(Scanner in) {
+	private void removeWhiteSpace(Scanner in) throws APException {
 		while (hasNextCharIsSpecial(in, SPACE)) {
-			nextChar(in); // Move over the whitespace
+			nextChar(in);
 		}
 	}
 
@@ -66,6 +66,7 @@ public class Main {
 	}
 
 	private Identifier readIdentifier(Scanner in) throws APException {
+
 		removeWhiteSpace(in);
 		Identifier result = new Identifier();
 		result.init();
@@ -83,6 +84,34 @@ public class Main {
 		return result;
 	}
 
+	private Identifier readIdentifierString(String input) throws APException {
+		Scanner in = new Scanner(input);
+		in.useDelimiter("");
+
+		removeWhiteSpace(in);
+		Identifier result = new Identifier();
+		result.init();
+
+		if (hasNextCharIsLetter(in)) {
+			result.add(nextChar(in));
+			removeWhiteSpace(in);
+		} else {
+			throw new APException("Identifiers should start with a letter");
+		}
+
+		while (hasNextChar(in)) {
+			if (hasNextCharIsAlphaNumerical(in)) {
+				result.add(nextChar(in));
+				removeWhiteSpace(in);
+			} else
+				throw new APException(
+						"Identifiers should only contain alphanumerical characters, the received character was '"
+								+ nextChar(in) + "'");
+		}
+
+		return result;
+	}
+
 	private NaturalNumber readNaturalNumber(Scanner in) throws APException {
 		removeWhiteSpace(in);
 		NaturalNumber result = new NaturalNumber();
@@ -95,17 +124,59 @@ public class Main {
 				return result;
 			}
 		}
-		
+
 		result.init();
 		while (hasNextCharIsDigit(in)) {
 			result.add(nextChar(in));
 		}
-		
-		if(result.getSize() > 0) {
+
+		if (hasNextCharIsLetter(in)) {
+			throw new APException("Letters are not allowed inside a natural number");
+		}
+
+		if (result.getSize() > 0) {
 			return result;
 		} else {
 			return null;
 		}
+	}
+
+	private Set<NaturalNumber> readNumbers(Scanner in) throws APException {
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+
+		if (!hasNextCharIsDigit(in)) {
+			return result.init();
+		} else {
+			result.init().addElement(readNaturalNumber(in));
+			removeWhiteSpace(in);
+		}
+
+		while (hasNextCharIsSpecial(in, SET_DELIMITER)) {
+			nextChar(in);
+			removeWhiteSpace(in);
+
+			if (hasNextCharIsDigit(in)) {
+				result.addElement(readNaturalNumber(in));
+			} else if (hasNextChar(in)) {
+				throw new APException("A number was expected, but '" + nextChar(in) + "' was received");
+			} else
+				throw new APException("A number was expected, but nothing was received");
+
+			removeWhiteSpace(in);
+		}
+
+		removeWhiteSpace(in);
+		if (hasNextCharIsSpecial(in, SET_CLOSE)) {
+			return result;
+		} else if (hasNextCharIsAlphaNumerical(in)) {
+			throw new APException(
+					"A '" + SET_DELIMITER + "' is needed to seperate elements of a set, but it was not found");
+		} else if (hasNextChar(in)) {
+			throw new APException(
+					"A '" + SET_CLOSE + "' was expected to end the set, but '" + nextChar(in) + "' was received");
+		} else
+			throw new APException("A '" + SET_CLOSE + "' was expected to end the set, but nothing was received");
+
 	}
 
 	private Set<NaturalNumber> readSet(Scanner in) throws APException {
@@ -116,26 +187,18 @@ public class Main {
 			nextChar(in);
 			removeWhiteSpace(in);
 
-			while (!hasNextCharIsSpecial(in, SET_CLOSE)) {
-				removeWhiteSpace(in);
-				result.addElement(readNaturalNumber(in));
-				removeWhiteSpace(in);
+			if (hasNextChar(in)) {
+				result = readNumbers(in);
+			} else
+				throw new APException("There was no input following the set opening sign, '" + SET_OPEN + "'");
 
-				while (hasNextCharIsSpecial(in, SET_DELIMITER)) {
-					nextChar(in);
-					removeWhiteSpace(in);
-					result.addElement(readNaturalNumber(in));
-					removeWhiteSpace(in);
-				}
-			}
-				nextChar(in);
+			nextChar(in);
 
 		} else if (hasNextCharIsLetter(in)) {
 			Identifier key = readIdentifier(in);
 			result = table.getValue(key).clone();
 
 		} else {
-			System.out.println("Input:" + in.next());
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
 
@@ -170,7 +233,7 @@ public class Main {
 
 			while (!hasNextCharIsSpecial(in, INNER_CLOSE)) {
 				if (!hasNextChar(in)) {
-					throw new APException("No closing bracket was found");
+					throw new APException("No closing sign '" + INNER_CLOSE + "' was found");
 				}
 
 				result = readExpression(in);
@@ -215,19 +278,23 @@ public class Main {
 		case SYM_DIFF:
 			return set1.symmetricDifference(set2);
 		default:
-			throw new APException("The operator was invalid " + operator);
+			throw new APException("The operator '" + operator + "' was invalid");
 		}
 	}
 
 	private void saveAssignment(Scanner in) throws APException {
-		Identifier key = readIdentifier(in);
-		removeWhiteSpace(in);
+		Identifier key = readIdentifierString(in.useDelimiter(ASSIGN + "").next());
+		removeWhiteSpace(in.useDelimiter(""));
 
 		if (!hasNextCharIsSpecial(in, ASSIGN)) {
 			throw new APException("A value should be assigned here");
 		} else {
 			nextChar(in);
 			removeWhiteSpace(in);
+
+			if (!hasNextChar(in))
+				throw new APException("There was no input following the '" + ASSIGN + "' sign");
+
 			Set<NaturalNumber> value = readExpression(in);
 			removeWhiteSpace(in);
 
@@ -242,6 +309,9 @@ public class Main {
 
 	private void printStatement(Scanner in) throws APException {
 		removeWhiteSpace(in);
+
+		if (!hasNextChar(in))
+			throw new APException("There was no input following the '" + QUESTION + "' sign");
 
 		Set<NaturalNumber> value = readExpression(in);
 
