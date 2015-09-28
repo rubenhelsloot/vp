@@ -247,10 +247,7 @@ public class Main {
 	}
 
 	private Set<NaturalNumber> readExpression(Scanner in) throws APException {
-		// Set<NaturalNumber> result = new Set<NaturalNumber>();
-		// result.init();
 		removeWhiteSpace(in);
-
 		Set<NaturalNumber> set1 = readPartial(in);
 		removeWhiteSpace(in);
 

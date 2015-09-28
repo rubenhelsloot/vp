@@ -40,7 +40,7 @@ public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInt
 			return entry.retrieve().getValue();
 		} else {
 			throw new APException(
-					"Failed to retrieve the value associated with the key as the key was not found.");
+					"There was no key found for this perceived operation");
 		}
 	}
 
