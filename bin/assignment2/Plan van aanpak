@@ -1,7 +1,0 @@
-X = ((({1, 2, 3} + {4, 5, 6} * {4, 5})) * ({2, 3}))
-Decide it is a saveStatement, save the Identifier, work through the = sign, readExpr
-On (, follow the scanner until a ) is read, then parse the input (readExpr)
-Between { and } parse a set
-On operator read next set, use operation and return resultSet, then go to next operation
-After each set, check if operator * is used, if so, parse that operator first
-Store Key Value pair in table

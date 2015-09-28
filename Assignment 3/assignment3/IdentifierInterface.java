@@ -23,7 +23,7 @@
  *	    </dl>
  */
 
-public interface IdentifierInterface {
+public interface IdentifierInterface extends Data<Identifier> {
 
 	/*
 	 * Initializes the Identifier-object to an identifier with one character.

@@ -1,8 +1,5 @@
 package assignment3;
 
-import Data;
-import SortingTree;
-
 /* ADT for the class SortingTree
  * 
  * @author Ruben Helsloot 
@@ -35,7 +32,7 @@ public interface SortingTreeInterface<E extends Data<E>> {
 	 * @postcondition The empty SortingTree has been initialized.
 	 */
 
-	SortingTree init();
+	SortingTree<E> init();
 	
 	/*
 	 * Adds an object of type E to the SortingTree.
@@ -46,7 +43,7 @@ public interface SortingTreeInterface<E extends Data<E>> {
 	 * id.
 	 */
 
-	SortingTree insert(E id);
+	SortingTree<E> insert(E id);
 	
 	/*
 	 * Remove the object with the same content as id from the SortingTree.
@@ -57,7 +54,7 @@ public interface SortingTreeInterface<E extends Data<E>> {
 	 * id.
 	 */
 
-	SortingTree remove(E id);
+	SortingTree<E> remove(E id);
 	
 	/*
 	 * Checks if an object of type E with the same content as id is contained in the SortingTree.
@@ -79,7 +76,7 @@ public interface SortingTreeInterface<E extends Data<E>> {
 	 * 
 	 */
 
-	???  sortUpward(E id);
+	Iterator<E> sortUpward(E id);
 	
 	/*
 	 * Checks if an object of type E with the same content as id is contained in the SortingTree.
@@ -90,5 +87,5 @@ public interface SortingTreeInterface<E extends Data<E>> {
 	 * 
 	 */
 
-	??? sortDownward(E id);
+	Iterator<E> sortDownward(E id);
 }
