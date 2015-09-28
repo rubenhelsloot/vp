@@ -9,8 +9,9 @@ public class Main {
 	public static final char SET_OPEN = '{', SET_CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
 			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|',
 			SET_DELIMITER = ',';
+	public String operators = "" + UNION + DIFFERENCE + INTERSECTION + SYM_DIFF;
 	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
-
+	
 	Main() {
 		table.init();
 	}
@@ -63,6 +64,17 @@ public class Main {
 
 		result.append(SET_CLOSE);
 		System.out.println(result.toString());
+	}
+	
+	
+	// Is this correct and beautiful enough though?
+	private char readOperator(Scanner in) throws APException {
+		String result = nextChar(in) + "";
+		if (operators.contains(result)) {
+			return result.charAt(0);
+		} else {
+			throw new APException("The perceived input '" +result+ "' is not a valid operator");
+		}
 	}
 
 	private Identifier readIdentifier(Scanner in) throws APException {
@@ -215,7 +227,7 @@ public class Main {
 		result.init();
 
 		removeWhiteSpace(in);
-		char operator = nextChar(in);
+		char operator = readOperator(in);
 
 		removeWhiteSpace(in);
 		Set<NaturalNumber> set2 = readPartial(in);
@@ -252,7 +264,7 @@ public class Main {
 		removeWhiteSpace(in);
 
 		if (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
-			char operator = nextChar(in);
+			char operator = readOperator(in);
 			removeWhiteSpace(in);
 
 			Set<NaturalNumber> set2 = readPartial(in);
