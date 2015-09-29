@@ -13,36 +13,30 @@ class Identifier implements IdentifierInterface {
 		sb = origin.get().sb;
 	}
 
-	@Override
 	public Identifier init(char c) {
 		sb.delete(0, getSize());
 		sb.append(c);
 		return this;
 	}
 
-	@Override
 	public Identifier add(char c) {
 		sb.append(c);
 		return this;
 	}
 
-	@Override
 	public Identifier get() {
 		return this;
 	}
 
-	@Override
 	public Identifier remove(int index) {
 		sb.deleteCharAt(sb.length() - 1);
 		return this;
 	}
 
-	@Override
 	public int getSize() {
 		return sb.length();
 	}
 
-	@Override
 	public boolean equals(Identifier id) {
 		if (id.getSize() != sb.length()) {
 			return false;

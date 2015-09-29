@@ -35,15 +35,13 @@ class Set implements SetInterface {
 		return copy;
 	}
 
-	@Override
 	public Set init() {
 		setLength = 0;
 		return this;
 	}
 
-	@Override
 	public Set addElement(Identifier id) {
-		
+
 		for (int i = 0; i < setLength; i++) {
 			if (set[i].equals(id)) {
 				System.out.println("The element you are trying to add is already in the Set.");
@@ -55,13 +53,12 @@ class Set implements SetInterface {
 		return this;
 	}
 
-	@Override
 	public Set removeElement(Identifier id) {
-		
+
 		if (isEmpty()) {
 			return this;
 		}
-		
+
 		for (int i = 0; i < setLength; i++) {
 			if (set[i].equals(id)) {
 				set[i] = set[setLength - 1];
@@ -72,35 +69,30 @@ class Set implements SetInterface {
 		return this;
 	}
 
-	@Override
 	public int getSize() {
 		return setLength;
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return setLength == 0;
 	}
 
-	@Override
 	public Identifier getRandom() {
 		return set[setLength - 1];
 	}
 
-	@Override
 	public Identifier getRemove() {
 		Identifier ident = set[setLength - 1];
 		removeElement(ident);
 		return ident;
 	}
-	
-    @Override
+
 	public boolean contains(Identifier ident) {
-		for(int i = 0; i < getSize(); i++) {
-			if(set[i].equals(ident)) {
+		for (int i = 0; i < getSize(); i++) {
+			if (set[i].equals(ident)) {
 				return true;
 			}
-		} 
+		}
 		return false;
 	}
 
@@ -108,36 +100,33 @@ class Set implements SetInterface {
 	public Set union(Set S) throws ArrayIndexOutOfBoundsException {
 		Set union = new Set(this);
 		Set inputSet = new Set(S);
-		
-		while(inputSet.getSize() > 0) {
+
+		while (inputSet.getSize() > 0) {
 			Identifier currentIdentifier = inputSet.getRemove();
-			if(!contains(currentIdentifier)) {
-				union.addElement(currentIdentifier); 
+			if (!contains(currentIdentifier)) {
+				union.addElement(currentIdentifier);
 			}
 		}
 		return union;
 	}
 
-	@Override
 	public Set difference(Set S) {
 		Set inputSet = new Set(S);
-		Set difference = new Set(this);
-		
-		while(inputSet.getSize() > 0) {
+		Set difference = new Set(this); 
+
+		while (inputSet.getSize() > 0) {
 			Identifier currentIdentifier = inputSet.getRemove();
-			if(difference.contains(currentIdentifier)) {
+			if (difference.contains(currentIdentifier)) {
 				difference.removeElement(currentIdentifier);
 			}
 		}
 		return difference;
 	}
 
-	@Override
 	public Set intersection(Set S) {
 		return difference(difference(S));
 	}
 
-	@Override
 	public Set symmetricDifference(Set S) throws ArrayIndexOutOfBoundsException {
 		return difference(S).union(S.difference(this));
 	}
