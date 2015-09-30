@@ -1,5 +1,7 @@
 package assignment3;
 
+import java.util.Iterator;
+
 /* ADT for the class SortingTree
  * 
  * @author Ruben Helsloot 
@@ -22,7 +24,7 @@ package assignment3;
  *		<dt><b>POST-condition</b><dd>The content of the new SortingTree is a clone of the SortingTree origin
  *	    </dl>
  */
-public interface SortingTreeInterface<E extends Data<E>> {
+public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 
 	/*
 	 * Initializes the SortingTree-object to be an empty SortingTree.
