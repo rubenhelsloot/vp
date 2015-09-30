@@ -1,0 +1,93 @@
+VARARGS = variable number of arguments
+sum(1,2,3) --> 6 // sum(1,2,3,4) --> 10
+int sum(int[] r) {			int sum(int... r) { //... always has to be the last parameter
+	int result = 0;				int result = 0;
+							
+	for(int e : r) {			for(int e: r) {
+		result += e; 				result += e;
+	}							}
+							
+	return result;				return result
+}							}
+
+MODIFIER ABSTRACT
+interface XYZ {
+	static final int MAX = 2;
+	void m();
+}
+
+All methods without bodies are abstract. //All methods in an interface
+
+abstract class XW {
+	abstract void m();
+	|==> a method without a body
+}
+
+If class is abstract, not possible to make an instance of
+
+	    Figure		--> abstract double area(); //Every subclass should have that method 
+		^	^
+Triangle	Rectangle
+
+TREES --> graph of nodes that has no cycles
+Nodes have parents and children
+First node is root, all children are the roots of subtrees et cetera
+Nodes without children are leaves
+
+Binary trees --> max two children for every node
+-> = empty tree
+-> 0 tree with one node
+Children are on left side or right side
+Trees are inherently recursive
+
+class TreeNode {
+	int data;
+	TreeNode left, right;
+	
+	TreeNode(int data, TreeNode l, TreeNode r) {
+		this.data = data;
+		left = l;
+		right = r;
+	}
+	
+	TreeNode(int data) {
+		this(data, null, null);
+	}
+	
+	TreeNode() {
+		this(0, null, null);
+	}
+	
+	int NumberOfNodes(TreeNode root) {
+		if (root == null) {
+			return 0;
+		} else {
+			return 1 + numberOfNodes(root.left) + numberOfNodes(root.right);
+		}
+	}
+	
+	boolean contains(TreeNode root, int x) {
+		if (root == null) {
+			return false;
+		} else if (root.data == x) {
+			return true;
+		} else {
+			return contains(root.right, x) || contains(root.left, x);
+		}
+	}
+	
+	int height (TreeNode root) {
+		if(root == null) {
+			return -1;
+		} else {
+			return 1 + Math.max(height(root.left), height(root.right));
+		}
+	}
+	
+	TreeNode copy(TreeNode root) {
+		if(root == null) {
+			return null;
+		} else {
+			return TreeNode(root.data, copy(root.left), copy(root.right));
+	}
+}
