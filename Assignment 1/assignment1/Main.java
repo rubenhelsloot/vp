@@ -14,7 +14,7 @@ public class Main {
 		return in.next().charAt(0);
 	}
 
-	private boolean hasNextCharIsSpecial(Scanner in, char c) {
+	private boolean hasNextCharEquals(Scanner in, char c) {
 		return in.hasNext(Pattern.quote(c + ""));
 	}
 
@@ -31,42 +31,33 @@ public class Main {
 	}
 
 	private boolean hasNextCharIsNewLine(Scanner in) {
-		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r');
+		return hasNextCharEquals(in, '\n') || hasNextCharEquals(in, '\r');
 	}
 
 	private void removeWhiteSpace(Scanner in) {
-		while (hasNextCharIsSpecial(in, SPACE)) {
+		while (hasNextCharEquals(in, SPACE)) {
 			nextChar(in); // Move over the whitespace
 		}
 	}
 
-	private void errorMessage(String s, Scanner in) {
-		System.out.println(s);
-		in.nextLine();
-	}
-
-	private boolean firstElement(Scanner in) {
-		if (!hasNextCharIsSpecial(in, OPEN)) {
+	private boolean firstElement(Scanner in) throws APException {
+		if (!hasNextCharEquals(in, OPEN)) {
 			if (hasNextCharIsNewLine(in)) {
 				in.nextLine();
 				return false;
 			}
 
-			errorMessage("The input should start with the opening tag, " + OPEN + ".", in);
-			return false;
+			throw new APException("The input should start with the opening tag, " + OPEN + ".");
 		}
 		return true;
 	}
 
-	private boolean parseInput(Set answer, Scanner in, Identifier id) {
+	private boolean parseInput(Set answer, Scanner in, Identifier id) throws APException {
 		if (!hasNextCharIsLetter(in)) {
 			if (!hasNextCharIsAlphaNumerical(in)) {
-				errorMessage("Every identifier should only contain alphanumerical characters.", in);
-				return false;
-			}
-
-			errorMessage("Every identifier should start with a letter.", in);
-			return false;
+				throw new APException("Every identifier should only contain alphanumerical characters.");
+			} else 
+				throw new APException("Every identifier should start with a letter.");
 		}
 
 		id.init(nextChar(in));
@@ -75,21 +66,19 @@ public class Main {
 		}
 
 		if (hasNextCharIsNewLine(in)) {
-			errorMessage("The input should end with the closing tag, " + CLOSE + ".", in);
-			return false;
+			throw new APException("The input should end with the closing tag, " + CLOSE + ".");
 		}
 
 		answer.addElement(id);
 
 		if (answer.getSize() > MAX_INPUT_SIZE) {
-			errorMessage("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.", in);
-			return false;
+			throw new APException("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.");
 		}
 		removeWhiteSpace(in);
 		return true;
 	}
 
-	private boolean readInput(Set answer, Scanner in) {
+	private boolean readInput(Set answer, Scanner in) throws APException {
 		removeWhiteSpace(in);
 
 		if (!firstElement(in)) {
@@ -100,7 +89,7 @@ public class Main {
 
 		removeWhiteSpace(in);
 
-		while (!hasNextCharIsSpecial(in, CLOSE)) {
+		while (!hasNextCharEquals(in, CLOSE)) {
 			Identifier id = new Identifier();
 			if (!parseInput(answer, in, id)) {
 				return false;
@@ -114,12 +103,11 @@ public class Main {
 			return true;
 		}
 
-		errorMessage("There are characters outside of the domain, please let " + CLOSE
-				+ " be the last element in your input.", in);
-		return false;
+		throw new APException("There are characters outside of the domain, please let " + CLOSE
+				+ " be the last element in your input.");
 	}
 
-	private boolean question(Scanner in, String question, Set answer) {
+	private boolean question(Scanner in, String question, Set answer) throws APException {
 		do {
 			answer.init();
 			System.out.print(question);
@@ -132,7 +120,7 @@ public class Main {
 		return true;
 	}
 
-	private boolean input(Set first, Set second) {
+	private boolean input(Set first, Set second) throws APException {
 		Scanner in = new Scanner(System.in);
 		in.useDelimiter(DEFAULT_DELIMITER);
 		return question(in, QUESTION_ONE, first) && question(in, QUESTION_TWO, second);
@@ -161,16 +149,15 @@ public class Main {
 		first.init();
 		second.init();
 
-		while (input(first, second)) {
+		while (true) {
 			try {
+				input(first, second);
 				print(first.union(second), "Union");
 				print(first.difference(second), "Difference");
 				print(first.intersection(second), "Intersection");
 				print(first.symmetricDifference(second), "Symmetric difference");
-			} catch (Exception e) {
-				System.out.println("The program was unable to construct a valid result for you and provided"
-						+ " the following error message");
-				System.out.println(e);
+			} catch (APException e) {
+				System.out.println("The program returned an error: " + e);
 			}
 		}
 	}

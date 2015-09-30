@@ -44,7 +44,6 @@ class Set implements SetInterface {
 
 		for (int i = 0; i < setLength; i++) {
 			if (set[i].equals(id)) {
-				System.out.println("The element you are trying to add is already in the Set.");
 				return this;
 			}
 		}
