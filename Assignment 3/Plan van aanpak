@@ -1,1 +1,10 @@
 Eerstvolgende appointment: woensdag na college
+
+Every non-alphanumeric character is a delimiter
+Every Identifier needs an occurence counter (maybe just a 0, 1 switch or boolean)
+Read from one or more files, append the input
+
+Binary searching tree
+
+Input: [0+ commandLineOptions] {1+ files};
+	files: <file> { <file name> };

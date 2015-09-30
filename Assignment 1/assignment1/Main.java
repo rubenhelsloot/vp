@@ -163,6 +163,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		new assignment1.Main().start();
+		new Main().start();
 	}
 }
