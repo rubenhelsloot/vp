@@ -11,7 +11,7 @@ public class Main {
 			SET_DELIMITER = ',', RANGE = '.';
 	public String operators = "" + UNION + DIFFERENCE + INTERSECTION + SYM_DIFF;
 	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
-	
+
 	Main() {
 		table.init();
 	}
@@ -43,7 +43,7 @@ public class Main {
 	private boolean hasNextCharIsNewLine(Scanner in) {
 		return hasNextCharIsSpecial(in, '\n') || hasNextCharIsSpecial(in, '\r') || in.hasNextLine();
 	}
-	
+
 	private void removeWhiteSpace(Scanner in) throws APException {
 		while (hasNextCharIsSpecial(in, SPACE)) {
 			nextChar(in);
@@ -65,15 +65,14 @@ public class Main {
 		result.append(SET_CLOSE);
 		System.out.println(result.toString());
 	}
-	
-	
+
 	// Is this correct and beautiful enough though?
 	private char readOperator(Scanner in) throws APException {
 		String result = nextChar(in) + "";
 		if (operators.contains(result)) {
 			return result.charAt(0);
 		} else {
-			throw new APException("The perceived input '" +result+ "' is not a valid operator");
+			throw new APException("The perceived input '" + result + "' is not a valid operator");
 		}
 	}
 
@@ -152,27 +151,26 @@ public class Main {
 			return null;
 		}
 	}
-	
+
 	private Set<NaturalNumber> readRange(Set<NaturalNumber> result, Scanner in) throws APException {
 		NaturalNumber firstNumber = readNaturalNumber(in);
 		result.addElement(firstNumber);
-		
+
 		if (hasNextCharIsSpecial(in, RANGE)) {
 			int counter = 0;
 			while (hasNextCharIsSpecial(in, RANGE)) {
 				nextChar(in);
-				counter++;			
+				counter++;
 			}
-			if (counter < 3) {
-				throw new APException("Three '" + RANGE + "' were expected, but less were received");
-			} else if (counter > 3) {
-				throw new APException("Three '" + RANGE + "' were expected, but more were received");
+			if (counter != 3) {
+				throw new APException("Three '" + RANGE + "' were expected, but a different number was received");
 			}
-	
+
 			if (hasNextCharIsDigit(in)) {
 				NaturalNumber secondNumber = readNaturalNumber(in);
 				int firstNumberInt = firstNumber.get();
 				int secondNumberInt = secondNumber.get();
+				
 				while (firstNumberInt < secondNumberInt) {
 					firstNumberInt++;
 					String firstNumberString = Integer.toString(firstNumberInt);
@@ -180,11 +178,13 @@ public class Main {
 					for (int i = 0; i < firstNumberString.length(); i++) {
 						firstNumberNN.add(firstNumberString.charAt(i));
 					}
-						
+
 					result.addElement(firstNumberNN);
 				}
-				
-			}
+
+			} else
+				throw new APException(
+						"A number was expected to end the range, but '" + nextChar(in) + "' was received");
 		}
 		removeWhiteSpace(in);
 		return result;
@@ -196,12 +196,13 @@ public class Main {
 		if (!hasNextCharIsDigit(in)) {
 			return result.init();
 		}
-		
+
 		while (hasNextChar(in)) {
 			if (hasNextCharIsDigit(in)) {
 				result = readRange(result, in);
-			} else throw new APException(
-					"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
+			} else
+				throw new APException(
+						"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
 			if (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 				nextChar(in);
 				removeWhiteSpace(in);
@@ -354,7 +355,7 @@ public class Main {
 		}
 
 		printSet(value);
-	} 
+	}
 
 	private void readInput(String input) throws APException {
 		Scanner parser = new Scanner(input);
