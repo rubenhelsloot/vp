@@ -8,21 +8,28 @@ import java.util.Iterator;
  * @author Sherida van den Bent
  * 
  * @elements objects of type E
- * @structure ?
- * @domain ?
+ * @structure binary tree
+ * @domain left < 0, right >= 0
  * 
  * @constructor
  *	SortingTree();
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>
- *		<dt><b>POST-condition</b><dd>The new SortingTree contains an empty tree.
+ *		<dt><b>POST-condition</b><dd>The new SortingTree contains no data, left and right are null.
  *	    </dl>
  *	<br>
- * SortingTree(SortingTree Origin);
+ *	SortingTree(E data);
  *	    <dl>
  *		<dt><b>PRE-condition</b><dd>
- *		<dt><b>POST-condition</b><dd>The content of the new SortingTree is a clone of the SortingTree origin
+ *		<dt><b>POST-condition</b><dd>The new SortingTree data of type E, but left and right are null.
  *	    </dl>
+ *	<br>
+ *	SortingTree(E data, SortingTree left, SortingTree right);
+ *	    <dl>
+ *		<dt><b>PRE-condition</b><dd>
+ *		<dt><b>POST-condition</b><dd>The new SortingTree data of type E, left and right reference the given SortingTrees respectively.
+ *	    </dl>
+ *	<br>
  */
 public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 
