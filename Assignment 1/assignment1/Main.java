@@ -40,24 +40,33 @@ public class Main {
 		}
 	}
 
-	private boolean firstElement(Scanner in) throws APException {
+	private void errorMessage(String s, Scanner in) {
+		System.out.println(s);
+		in.nextLine();
+	}
+
+	private boolean firstElement(Scanner in) {
 		if (!hasNextCharEquals(in, OPEN)) {
 			if (hasNextCharIsNewLine(in)) {
 				in.nextLine();
 				return false;
 			}
 
-			throw new APException("The input should start with the opening tag, " + OPEN + ".");
+			errorMessage("The input should start with the opening tag, " + OPEN + ".", in);
+			return false;
 		}
 		return true;
 	}
 
-	private boolean parseInput(Set answer, Scanner in, Identifier id) throws APException {
+	private boolean parseInput(Set answer, Scanner in, Identifier id) {
 		if (!hasNextCharIsLetter(in)) {
 			if (!hasNextCharIsAlphaNumerical(in)) {
-				throw new APException("Every identifier should only contain alphanumerical characters.");
-			} else 
-				throw new APException("Every identifier should start with a letter.");
+				errorMessage("Every identifier should only contain alphanumerical characters.", in);
+				return false;
+			}
+
+			errorMessage("Every identifier should start with a letter.", in);
+			return false;
 		}
 
 		id.init(nextChar(in));
@@ -66,19 +75,21 @@ public class Main {
 		}
 
 		if (hasNextCharIsNewLine(in)) {
-			throw new APException("The input should end with the closing tag, " + CLOSE + ".");
+			errorMessage("The input should end with the closing tag, " + CLOSE + ".", in);
+			return false;
 		}
 
 		answer.addElement(id);
 
 		if (answer.getSize() > MAX_INPUT_SIZE) {
-			throw new APException("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.");
+			errorMessage("The input contains more than the maximum of " + MAX_INPUT_SIZE + " elements.", in);
+			return false;
 		}
 		removeWhiteSpace(in);
 		return true;
 	}
 
-	private boolean readInput(Set answer, Scanner in) throws APException {
+	private boolean readInput(Set answer, Scanner in) {
 		removeWhiteSpace(in);
 
 		if (!firstElement(in)) {
@@ -103,11 +114,12 @@ public class Main {
 			return true;
 		}
 
-		throw new APException("There are characters outside of the domain, please let " + CLOSE
-				+ " be the last element in your input.");
+		errorMessage("There are characters outside of the domain, please let " + CLOSE
+				+ " be the last element in your input.", in);
+		return false;
 	}
 
-	private boolean question(Scanner in, String question, Set answer) throws APException {
+	private boolean question(Scanner in, String question, Set answer) {
 		do {
 			answer.init();
 			System.out.print(question);
@@ -120,7 +132,7 @@ public class Main {
 		return true;
 	}
 
-	private boolean input(Set first, Set second) throws APException {
+	private boolean input(Set first, Set second) {
 		Scanner in = new Scanner(System.in);
 		in.useDelimiter(DEFAULT_DELIMITER);
 		return question(in, QUESTION_ONE, first) && question(in, QUESTION_TWO, second);
@@ -149,20 +161,21 @@ public class Main {
 		first.init();
 		second.init();
 
-		while (true) {
+		while (input(first, second)) {
 			try {
-				input(first, second);
 				print(first.union(second), "Union");
 				print(first.difference(second), "Difference");
 				print(first.intersection(second), "Intersection");
 				print(first.symmetricDifference(second), "Symmetric difference");
-			} catch (APException e) {
-				System.out.println("The program returned an error: " + e);
+			} catch (Exception e) {
+				System.out.println("The program was unable to construct a valid result for you and provided"
+						+ " the following error message");
+				System.out.println(e);
 			}
 		}
 	}
 
 	public static void main(String[] args) {
-		new Main().start();
+		new assignment1.Main().start();
 	}
 }

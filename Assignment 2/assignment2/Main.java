@@ -66,7 +66,6 @@ public class Main {
 		System.out.println(result.toString());
 	}
 
-	// Is this correct and beautiful enough though?
 	private char readOperator(Scanner in) throws APException {
 		String result = nextChar(in) + "";
 		if (operators.contains(result)) {
@@ -194,7 +193,7 @@ public class Main {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 
 		if (!hasNextCharIsDigit(in)) {
-			return result.init();
+			return result;
 		}
 
 		while (hasNextChar(in)) {
@@ -218,7 +217,6 @@ public class Main {
 
 	private Set<NaturalNumber> readSet(Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
-		result.init();
 
 		if (hasNextCharIsSpecial(in, SET_OPEN)) {
 			nextChar(in);
@@ -249,7 +247,6 @@ public class Main {
 
 	private Set<NaturalNumber> readPartialExpression(Set<NaturalNumber> set1, Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
-		result.init();
 
 		removeWhiteSpace(in);
 		char operator = readOperator(in);
