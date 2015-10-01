@@ -132,9 +132,7 @@ public class Main {
 		return true;
 	}
 
-	private boolean input(Set first, Set second) {
-		Scanner in = new Scanner(System.in);
-		in.useDelimiter(DEFAULT_DELIMITER);
+	private boolean input(Set first, Set second, Scanner in) {
 		return question(in, QUESTION_ONE, first) && question(in, QUESTION_TWO, second);
 	}
 
@@ -157,16 +155,18 @@ public class Main {
 		Set first, second;
 		first = new Set();
 		second = new Set();
+		
+		Scanner in = new Scanner(System.in);
+		in.useDelimiter(DEFAULT_DELIMITER);
 
-		first.init();
-		second.init();
-
-		while (input(first, second)) {
+		while (input(first, second, in)) {
 			try {
 				print(first.union(second), "Union");
 				print(first.difference(second), "Difference");
 				print(first.intersection(second), "Intersection");
 				print(first.symmetricDifference(second), "Symmetric difference");
+				first.init();
+				second.init();
 			} catch (Exception e) {
 				System.out.println("The program was unable to construct a valid result for you and provided"
 						+ " the following error message");
@@ -176,6 +176,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		new assignment1.Main().start();
+		new Main().start();
 	}
 }

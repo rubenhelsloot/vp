@@ -79,7 +79,6 @@ public class Main {
 
 		removeWhiteSpace(in);
 		Identifier result = new Identifier();
-		result.init();
 
 		if (hasNextCharIsLetter(in)) {
 			result.add(nextChar(in));
@@ -97,22 +96,14 @@ public class Main {
 	private Identifier readIdentifierString(String input) throws APException {
 		Scanner in = new Scanner(input);
 		in.useDelimiter("");
-
-		removeWhiteSpace(in);
 		Identifier result = new Identifier();
-		result.init();
 
-		if (hasNextCharIsLetter(in)) {
-			result.add(nextChar(in));
-			removeWhiteSpace(in);
-		} else {
-			throw new APException("Identifiers should start with a letter");
-		}
-
-		while (hasNextChar(in)) {
+		result = readIdentifier(in);
+		removeWhiteSpace(in);
+		
+		if (hasNextChar(in)) {
 			if (hasNextCharIsAlphaNumerical(in)) {
-				result.add(nextChar(in));
-				removeWhiteSpace(in);
+				throw new APException("Identifiers should not contain spaces");
 			} else
 				throw new APException(
 						"Identifiers should only contain alphanumerical characters, the received character was '"
@@ -152,8 +143,8 @@ public class Main {
 	}
 
 	private Set<NaturalNumber> readRange(Set<NaturalNumber> result, Scanner in) throws APException {
-		NaturalNumber firstNumber = readNaturalNumber(in);
-		result.addElement(firstNumber);
+		NaturalNumber first = readNaturalNumber(in);
+		result.addElement(first);
 
 		if (hasNextCharIsSpecial(in, RANGE)) {
 			int counter = 0;
@@ -166,26 +157,22 @@ public class Main {
 			}
 
 			if (hasNextCharIsDigit(in)) {
-				NaturalNumber secondNumber = readNaturalNumber(in);
-				int firstNumberInt = firstNumber.get();
-				int secondNumberInt = secondNumber.get();
+				NaturalNumber second = readNaturalNumber(in);
 				
-				while (firstNumberInt < secondNumberInt) {
-					firstNumberInt++;
-					String firstNumberString = Integer.toString(firstNumberInt);
-					NaturalNumber firstNumberNN = new NaturalNumber();
-					for (int i = 0; i < firstNumberString.length(); i++) {
-						firstNumberNN.add(firstNumberString.charAt(i));
+				for(int i = first.get() + 1; i <= second.get(); i++) {
+					String string = Integer.toString(i);
+					NaturalNumber Number = new NaturalNumber();
+					for (int j = 0; j < string.length(); j++) {
+						Number.add(string.charAt(j));
 					}
-
-					result.addElement(firstNumberNN);
+					
+					result.addElement(Number);
 				}
 
 			} else
 				throw new APException(
 						"A number was expected to end the range, but '" + nextChar(in) + "' was received");
 		}
-		removeWhiteSpace(in);
 		return result;
 	}
 
