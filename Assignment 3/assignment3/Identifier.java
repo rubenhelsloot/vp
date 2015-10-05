@@ -1,53 +1,55 @@
 package assignment3;
 
 public class Identifier implements IdentifierInterface {
+	
+	StringBuffer sb;
+	
+	Identifier() {
+		init();
+	}
 
 	@Override
-	public Identifier init(char c) {
-		// TODO Auto-generated method stub
-		return null;
+	public Identifier init() {
+		sb = new StringBuffer();
+		return this;
 	}
 
 	@Override
 	public Identifier add(char c) {
-		// TODO Auto-generated method stub
-		return null;
+		sb.append(c);
+		return this;
 	}
 
 	@Override
-	public Identifier get() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Identifier remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+	public StringBuffer get() {
+		return this.sb;
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return sb.length();
 	}
 
 	@Override
 	public boolean equals(Identifier id) {
-		// TODO Auto-generated method stub
-		return false;
+		return sb.equals(id.sb);
 	}
 
 	@Override
 	public Identifier clone() {
-		// TODO Auto-generated method stub
-		return null;
+		Identifier idenClone = new Identifier();
+		idenClone.init();
+		
+		for(int i = 0; i < sb.length(); i++) {
+			idenClone.add(sb.charAt(i));
+		}
+		
+		return idenClone;
 	}
 
 	@Override
 	public int compareTo(Identifier o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sb.toString().compareTo(o.sb.toString());
 	}
 
 }
