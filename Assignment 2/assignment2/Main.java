@@ -51,18 +51,17 @@ public class Main {
 	}
 
 	private void printSet(Set<NaturalNumber> S) {
-		StringBuffer result = new StringBuffer().append(SET_OPEN);
+		StringBuffer result = new StringBuffer();
 
 		while (S.getSize() > 0) {
 			NaturalNumber N = S.getRemove();
 			result.append(N.data.toString());
 
 			if (S.getSize() > 0) {
-				result.append(SET_DELIMITER).append(SPACE);
+				result.append(SPACE);
 			}
 		}
 
-		result.append(SET_CLOSE);
 		System.out.println(result.toString());
 	}
 
@@ -360,6 +359,8 @@ public class Main {
 			} else
 				throw new APException("Start of line is invalid");
 		}
+		
+		parser.close();
 	}
 
 	private void start() {
