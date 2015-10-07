@@ -51,18 +51,17 @@ public class Main {
 	}
 
 	private void printSet(Set<NaturalNumber> S) {
-		StringBuffer result = new StringBuffer().append(SET_OPEN);
+		StringBuffer result = new StringBuffer();
 
 		while (S.getSize() > 0) {
 			NaturalNumber N = S.getRemove();
 			result.append(N.data.toString());
 
 			if (S.getSize() > 0) {
-				result.append(SET_DELIMITER).append(SPACE);
+				result.append(SPACE);
 			}
 		}
 
-		result.append(SET_CLOSE);
 		System.out.println(result.toString());
 	}
 
@@ -145,22 +144,24 @@ public class Main {
 	private Set<NaturalNumber> readRange(Set<NaturalNumber> result, Scanner in) throws APException {
 		NaturalNumber first = readNaturalNumber(in);
 		result.addElement(first);
+		removeWhiteSpace(in);
 
 		if (hasNextCharIsSpecial(in, RANGE)) {
 			int counter = 0;
 			while (hasNextCharIsSpecial(in, RANGE)) {
 				nextChar(in);
+				removeWhiteSpace(in);
 				counter++;
 			}
-			if (counter != 3) {
-				throw new APException("Three '" + RANGE + "' were expected, but a different number was received");
+			if (counter != 2) {
+				throw new APException("Two '" + RANGE + "' were expected, but a different number was received");
 			}
 
 			if (hasNextCharIsDigit(in)) {
 				NaturalNumber second = readNaturalNumber(in);
 				
-				for(int i = first.get() + 1; i <= second.get(); i++) {
-					String string = Integer.toString(i);
+				for(long i = first.get() + 1; i <= second.get(); i++) {
+					String string = Long.toString(i);
 					NaturalNumber Number = new NaturalNumber();
 					for (int j = 0; j < string.length(); j++) {
 						Number.add(string.charAt(j));
@@ -186,9 +187,11 @@ public class Main {
 		while (hasNextChar(in)) {
 			if (hasNextCharIsDigit(in)) {
 				result = readRange(result, in);
+				removeWhiteSpace(in);
 			} else
 				throw new APException(
 						"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
+			
 			if (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 				nextChar(in);
 				removeWhiteSpace(in);
@@ -359,11 +362,16 @@ public class Main {
 				saveAssignment(parser);
 			} else
 				throw new APException("Start of line is invalid");
+		} else {
+			throw new APException("Line should not be empty");
 		}
+		
+		parser.close();
 	}
 
 	private void start() {
 		Scanner in = new Scanner(System.in);
+		in.useDelimiter(DEFAULT_DELIMITER);
 		while (hasNextCharIsNewLine(in)) {
 			try {
 				readInput(in.nextLine());

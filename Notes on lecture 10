@@ -1,0 +1,79 @@
+Binary search Trees
+
+O(n) -> input to work ratio is linear
+
+Degenerated binary search tree: 1 - 2 - 3 - 4 //List
+
+If input < node, go left, == node awesome! else go right
+
+boolean containsBST (TreeNode root, int x) {
+	if(root == null) return false;
+	
+	if(x < root.data) {
+		return containsBST(root.left, x);
+	} else if(x == root.data) {
+		return true;
+	} else {
+		return containsBST(root.right, x);
+	}
+}
+
+void insert (TreeNode root, int x) {
+	if(root == null) {
+		return new TreeNode(x);
+	}
+	if(x < root.data) {
+		root.left = insert(root.left, x);
+	} else {
+		root.right = insert(root.right, x);
+	}
+	
+	return root;
+}
+
+NODE REMOVAL
+ - look for smallest in right subtree
+ - override node with smallest in right subtree
+ - then smallest will not have more than one child
+ - make parent point left to this right 
+ 
+ TreeNode remove (TreeNode root, int x) {
+ 	if( root == null) throw new Error wefrgg;
+ 	
+ 	if (x < root.data) {
+ 		root.left = remove(root.left, x);
+ 	} else if (x > root.data) {
+ 		root.right = remove(root.right, x);
+ 	} else {
+ 		// 1 child
+ 		if(root.left == null) {
+ 			root = root.right;
+ 		} else if(root.right = null) {
+ 			root = root.left;
+ 		}
+ 		// 2 children
+ 		root.data = smallest(root.right);
+ 		root.right = remove(root.right, root.data);
+ 	}
+ 	return root;
+ }
+ 
+ TREE TRAVERSAL
+ PRE-order		IN-order		POST-order
+ 	(1)				(2)				(3)
+ /2\   /3\		 /1\   /3\		 /1\   /2\
+ 
+IN-order prints sorted!
+
+void inOrder(TreeNode root) {
+	if(root == null) return;
+	
+	inOrder(root.left);
+	out.printf (root.data);
+	inOrder(root.right);
+}
+
+int smallest(TreeNode root) {
+	return root.left == null? root.data; smallest(root.left);
+}
+
