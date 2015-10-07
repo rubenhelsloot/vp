@@ -143,7 +143,6 @@ public class Main {
 
 	private Set<NaturalNumber> readRange(Set<NaturalNumber> result, Scanner in) throws APException {
 		NaturalNumber first = readNaturalNumber(in);
-		result.addElement(first);
 		removeWhiteSpace(in);
 
 		if (hasNextCharIsSpecial(in, RANGE)) {
@@ -153,14 +152,14 @@ public class Main {
 				removeWhiteSpace(in);
 				counter++;
 			}
-			if (counter != 2) {
-				throw new APException("Two '" + RANGE + "' were expected, but a different number was received");
+			if (counter != 3) {
+				throw new APException("Three '" + RANGE + "' were expected, but a different number was received");
 			}
 
 			if (hasNextCharIsDigit(in)) {
 				NaturalNumber second = readNaturalNumber(in);
 				
-				for(long i = first.get() + 1; i <= second.get(); i++) {
+				for(long i = first.get(); i <= second.get(); i++) {
 					String string = Long.toString(i);
 					NaturalNumber Number = new NaturalNumber();
 					for (int j = 0; j < string.length(); j++) {

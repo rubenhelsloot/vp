@@ -71,7 +71,6 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public List<E> remove() {
-		// switch statement?
 		if (first == last) {
 			init();
 		} else if (current == first) {
