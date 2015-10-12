@@ -7,10 +7,11 @@ class Identifier implements IdentifierInterface {
 
 	Identifier() {
 		sb = new StringBuffer();
+		sb.append('1');
 	}
 
 	Identifier(Identifier origin) {
-		sb = origin.get().sb;
+		sb = origin.sb;
 	}
 
 	public Identifier init(char c) {
@@ -24,11 +25,11 @@ class Identifier implements IdentifierInterface {
 		return this;
 	}
 
-	public Identifier get() {
-		return this;
+	public String get() {
+		return sb.toString();
 	}
 
-	public Identifier remove(int index) {
+	public Identifier remove() {
 		sb.deleteCharAt(sb.length() - 1);
 		return this;
 	}
@@ -42,13 +43,7 @@ class Identifier implements IdentifierInterface {
 			return false;
 		}
 		
-		for(int i = 0; i < sb.length(); i++) {
-			if(sb.charAt(i) != id.sb.charAt(i)) {
-				return false;
-			}
-		}
-		
-		return true;
+		return (sb.toString().equals(id.get()));
 	}
 
 }

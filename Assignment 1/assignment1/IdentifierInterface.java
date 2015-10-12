@@ -50,22 +50,21 @@ public interface IdentifierInterface {
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The Identifier has been returned.
+	 * @postcondition The string representation of Identifier has been returned.
 	 */
 
-	Identifier get();
+	String get();
 
 	/*
 	 * Removes a specific character from the Identifier.
 	 * 
-	 * @precondition index is a number that is larger than 0 and smaller than
-	 * the length of the Identifier.
+	 * @precondition -
 	 * 
-	 * @postcondition The character at the specified index has been removed from
+	 * @postcondition The character has been removed from
 	 * the Identifier.
 	 */
 
-	Identifier remove(int index);
+	Identifier remove();
 
 	/*
 	 * Returns the length of the Identifier.

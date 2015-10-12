@@ -153,5 +153,26 @@ public interface SetInterface<E extends Data<E>> extends Clonable<Set<E>> {
 	 */
 
 	Set<E> symmetricDifference(Set<E> S) throws ArrayIndexOutOfBoundsException;
+	
+	/*
+	 * Return whether two sets are equivalent.
+	 * 
+	 * @precondition -
+	 * 
+	 * @postcondition TRUE: the two sets are each others subsets
+	 * 					FALSE: elements exist that are in only one of the two sets
+	 */
 
+	boolean equals(Set<E> S);
+	
+	/*
+	 * Return whether a set is the subset of another set.
+	 * 
+	 * @precondition -
+	 * 
+	 * @postcondition TRUE: all elements in Set-PRE are also in S
+	 * 					FALSE: elements exist in Set-PRE that are not in S
+	 */
+
+	boolean subset(Set<E> S);
 }

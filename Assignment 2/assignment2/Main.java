@@ -8,8 +8,10 @@ public class Main {
 	public static final String DEFAULT_DELIMITER = "";
 	public static final char SET_OPEN = '{', SET_CLOSE = '}', INNER_OPEN = '(', INNER_CLOSE = ')', QUESTION = '?',
 			COMMENT = '/', ASSIGN = '=', SPACE = ' ', UNION = '+', DIFFERENCE = '-', INTERSECTION = '*', SYM_DIFF = '|',
-			SET_DELIMITER = ',', RANGE = '.';
-	public String operators = "" + UNION + DIFFERENCE + INTERSECTION + SYM_DIFF;
+			SET_DELIMITER = ',', RANGE = '.', IF_OPERATOR = '%', SMALLER = '<', EQUALS = '=', GREATER = '>';
+	public String operators = Character.toString(UNION) + DIFFERENCE + INTERSECTION + SYM_DIFF,
+			expression = Character.toString(SMALLER) + EQUALS + GREATER;
+	public static final int RANGE_COUNTER = 2;
 	Table<Identifier, Set<NaturalNumber>> table = new Table<Identifier, Set<NaturalNumber>>();
 
 	Main() {
@@ -55,7 +57,7 @@ public class Main {
 
 		while (S.getSize() > 0) {
 			NaturalNumber N = S.getRemove();
-			result.append(N.data.toString());
+			result.append(N.stringify());
 
 			if (S.getSize() > 0) {
 				result.append(SPACE);
@@ -65,13 +67,35 @@ public class Main {
 		System.out.println(result.toString());
 	}
 
-	private char readOperator(Scanner in) throws APException {
-		String result = nextChar(in) + "";
-		if (operators.contains(result)) {
+	private char readOperator(Scanner in, String options) throws APException {
+		String result = Character.toString(nextChar(in));
+		if (options.contains(result)) {
 			return result.charAt(0);
 		} else {
-			throw new APException("The perceived input '" + result + "' is not a valid operator");
+			throw new APException(
+					"The perceived input '" + result + "' is not a valid operator, " + options + " expected.");
 		}
+	}
+
+	private boolean readBoolean(Scanner in) throws APException {
+		Set<NaturalNumber> set1 = new Set<NaturalNumber>();
+		Set<NaturalNumber> set2 = new Set<NaturalNumber>();
+
+		do {
+			nextChar(in);
+		} while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_OPEN));
+		if (hasNextCharIsSpecial(in, INNER_OPEN))
+			nextChar(in);
+		else
+			throw new APException("'" + INNER_OPEN + "' expected");
+
+		set1 = readSet(in);
+		removeWhiteSpace(in);
+		char operator = readOperator(in, expression);
+		removeWhiteSpace(in);
+		set2 = readSet(in);
+
+		return parseBoolean(set1, operator, set2);
 	}
 
 	private Identifier readIdentifier(Scanner in) throws APException {
@@ -99,7 +123,7 @@ public class Main {
 
 		result = readIdentifier(in);
 		removeWhiteSpace(in);
-		
+
 		if (hasNextChar(in)) {
 			if (hasNextCharIsAlphaNumerical(in)) {
 				throw new APException("Identifiers should not contain spaces");
@@ -152,26 +176,26 @@ public class Main {
 				removeWhiteSpace(in);
 				counter++;
 			}
-			if (counter != 3) {
-				throw new APException("Three '" + RANGE + "' were expected, but a different number was received");
+			if (counter != RANGE_COUNTER) {
+				throw new APException(
+						RANGE_COUNTER + " '" + RANGE + "' were expected, but " + counter + " were received");
 			}
 
 			if (hasNextCharIsDigit(in)) {
 				NaturalNumber second = readNaturalNumber(in);
-				
-				for(long i = first.get(); i <= second.get(); i++) {
-					String string = Long.toString(i);
-					NaturalNumber Number = new NaturalNumber();
-					for (int j = 0; j < string.length(); j++) {
-						Number.add(string.charAt(j));
-					}
-					
-					result.addElement(Number);
+
+				int i = 0;
+				while (first.clone().raise(i).compareTo(second) <= 0) {
+					NaturalNumber test = first.clone().raise(i);
+					result.addElement(test);
+					i++;
 				}
 
 			} else
 				throw new APException(
 						"A number was expected to end the range, but '" + nextChar(in) + "' was received");
+		} else {
+			result.addElement(first);
 		}
 		return result;
 	}
@@ -190,7 +214,7 @@ public class Main {
 			} else
 				throw new APException(
 						"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
-			
+
 			if (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 				nextChar(in);
 				removeWhiteSpace(in);
@@ -221,7 +245,9 @@ public class Main {
 		} else if (hasNextCharIsLetter(in)) {
 			Identifier key = readIdentifier(in);
 			result = table.getValue(key).clone();
-
+		} else if (hasNextCharIsSpecial(in, IF_OPERATOR)) {
+			nextChar(in);
+			result = readStatement(in);
 		} else {
 			throw new APException("An expression should either start with a set or the name of a saved set");
 		}
@@ -234,11 +260,48 @@ public class Main {
 		}
 	}
 
-	private Set<NaturalNumber> readPartialExpression(Set<NaturalNumber> set1, Scanner in) throws APException {
+	private Set<NaturalNumber> readStatement(Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		boolean statement = readBoolean(in);
+		
+		do {
+			nextChar(in);
+		} while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_OPEN));
+		if (!hasNextCharIsSpecial(in, INNER_OPEN))
+			throw new APException("'" + INNER_OPEN + "' expected");
 
+		if (statement) {
+			result = readPartial(in);
+		}
+
+		if (hasNextChar(in)) {
+			do {
+				nextChar(in);
+			} while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_OPEN));
+			if (!hasNextCharIsSpecial(in, INNER_OPEN))
+				throw new APException("'" + INNER_OPEN + "' expected");
+		} else
+			throw new APException("No else statement was found, please provide an alternative");
+
+		if (!statement) {
+			result = readPartial(in);
+
+		} else {
+			do {
+				nextChar(in);
+			} while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_CLOSE));
+			if (hasNextCharIsSpecial(in, INNER_CLOSE))
+				nextChar(in);
+			else
+				throw new APException("'" + INNER_CLOSE + "' expected");
+		}
+
+		return result;
+	}
+
+	private Set<NaturalNumber> readPartialExpression(Set<NaturalNumber> set1, Scanner in) throws APException {
 		removeWhiteSpace(in);
-		char operator = readOperator(in);
+		char operator = readOperator(in, operators);
 
 		removeWhiteSpace(in);
 		Set<NaturalNumber> set2 = readPartial(in);
@@ -248,7 +311,6 @@ public class Main {
 
 	private Set<NaturalNumber> readPartial(Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
-		result.init();
 
 		if (hasNextCharIsSpecial(in, INNER_OPEN)) {
 			nextChar(in);
@@ -271,19 +333,13 @@ public class Main {
 
 	private Set<NaturalNumber> readExpression(Scanner in) throws APException {
 		removeWhiteSpace(in);
-		Set<NaturalNumber> set1 = readPartial(in);
+		Set<NaturalNumber> result = readPartial(in);
 		removeWhiteSpace(in);
 
-		if (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
-			char operator = readOperator(in);
-			removeWhiteSpace(in);
-
-			Set<NaturalNumber> set2 = readPartial(in);
-
-			return parseExpression(set1, operator, set2);
-		} else {
-			return set1;
+		while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_CLOSE)) {
+			result = readPartialExpression(result, in);
 		}
+		return result;
 	}
 
 	private Set<NaturalNumber> parseExpression(Set<NaturalNumber> set1, char operator, Set<NaturalNumber> set2)
@@ -299,6 +355,19 @@ public class Main {
 			return set1.symmetricDifference(set2);
 		default:
 			throw new APException("The operator '" + operator + "' was invalid");
+		}
+	}
+
+	private boolean parseBoolean(Set<NaturalNumber> set1, char operator, Set<NaturalNumber> set2) throws APException {
+		switch (operator) {
+		case SMALLER:
+			return set1.subset(set2);
+		case EQUALS:
+			return set1.equals(set2);
+		case GREATER:
+			return set2.subset(set1);
+		default:
+			throw new APException("The statement operator '" + operator + "' was invalid");
 		}
 	}
 
@@ -362,9 +431,10 @@ public class Main {
 			} else
 				throw new APException("Start of line is invalid");
 		} else {
+			parser.close();
 			throw new APException("Line should not be empty");
 		}
-		
+
 		parser.close();
 	}
 

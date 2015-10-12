@@ -1,0 +1,42 @@
+$ java prog3 		a b c
+		-program	-command line arguments
+		
+public static void main (String[] args) {
+	new Prog3().start(args);
+}
+
+void start(String[] args) {
+	for(String s : args) {
+		System.out.println("%s\n", s);
+	}
+}
+
+READING FROM A FILE
+File file = new File("/home/app/a");
+try {
+	Scanner fileScanner = new Scanner(file);
+} catch (Exception e) {
+	....
+} catch (Exception e) {
+	....
+}
+
+Iterator<E> <-- interface
+
+E next();
+boolean hasNext();
+void remove();
+
+Iterator<...> it = .......;
+while(it.hasNext()) {
+	e = it.next();
+	out.printf("%s\n", s);
+}
+
+
+API --> ArrayList<E>
+Object clone();
+E get(int index);
+boolean remove(int index);
+booleans contains (E e);
+Iterator<E> iterator();
