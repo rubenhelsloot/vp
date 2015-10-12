@@ -190,7 +190,7 @@ public class Main {
 				removeWhiteSpace(in);
 			} else
 				throw new APException(
-						"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
+						"A number was expected to end the range, but '" + nextChar(in) + "' was received");
 			
 			if (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 				nextChar(in);
