@@ -71,11 +71,11 @@ public class Main {
 			throw new APException("The tree is empty, no output found");
 
 		while (iterator.hasNext()) {
-			if (iterator.hasNext()) {
+			while(iterator.hasNext()) {
 				next = iterator.next();
 				if (current.compareTo(next) == 0) {
 					counter++;
-				}
+				} else break;
 			}
 
 			if (counter % 2 == 1) {
@@ -84,7 +84,6 @@ public class Main {
 
 			current = next.clone();
 			counter = 1;
-
 		}
 	}
 
@@ -160,10 +159,6 @@ public class Main {
 	}
 
 	private void start(String[] args) {
-		for (String s : args) {
-			System.out.println(s);
-		}
-
 		try {
 			int options = options(args);
 			tree.init();
@@ -176,7 +171,9 @@ public class Main {
 			}
 
 			Iterator<Identifier> iterator = !descending ? tree.ascendingIterator() : tree.descendingIterator();
-			print(iterator);
+			Iterator<Identifier> test = !descending ? tree.ascendingIterator() : tree.descendingIterator();
+			while(test.hasNext()) { System.out.println(test.next().stringify()); }
+//			print(iterator);
 		} catch (APException e) {
 			System.out.println(e.toString());
 		}

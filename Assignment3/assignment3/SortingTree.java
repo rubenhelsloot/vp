@@ -25,7 +25,7 @@ public class SortingTree<E extends Data<E>> implements SortingTreeInterface<E> {
 	}
 
 	private TreeNode<E> insert(TreeNode<E> root, E d) {
-		if (root == null) {
+		if (root == null || root.data == null) {
 			return new TreeNode<E>(d);
 		}
 
@@ -156,9 +156,9 @@ public class SortingTree<E extends Data<E>> implements SortingTreeInterface<E> {
 			return;
 		}
 		
-		inOrder(root.right);
+		downOrder(root.right);
 		arrList.add(root.data);
-		inOrder(root.left);		
+		downOrder(root.left);		
 	}
 
 	public SortingTree<E> clone() {
