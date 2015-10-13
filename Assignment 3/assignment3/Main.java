@@ -176,6 +176,10 @@ public class Main {
 		} catch (APException e) {
 			System.out.println(e.toString());
 		}
+		
+//		for(String s : args) {
+//			System.out.println(s);
+//		}
 	}
 
 	public static void main(String[] args) {

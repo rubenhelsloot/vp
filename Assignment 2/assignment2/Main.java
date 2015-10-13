@@ -213,7 +213,7 @@ public class Main {
 				removeWhiteSpace(in);
 			} else
 				throw new APException(
-						"A '" + SET_DELIMITER + "' is needed to separate elements of a set, but it was not found");
+						"A number was expected to end the range, but '" + nextChar(in) + "' was received");
 
 			if (hasNextCharIsSpecial(in, SET_DELIMITER)) {
 				nextChar(in);
@@ -263,7 +263,7 @@ public class Main {
 	private Set<NaturalNumber> readStatement(Scanner in) throws APException {
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		boolean statement = readBoolean(in);
-		
+
 		do {
 			nextChar(in);
 		} while (hasNextChar(in) && !hasNextCharIsSpecial(in, INNER_OPEN));
