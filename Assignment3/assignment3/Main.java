@@ -1,7 +1,6 @@
 package assignment3;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 import java.util.Iterator;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,10 +24,6 @@ public class Main {
 		return in.next().charAt(0);
 	}
 
-	private boolean hasNextCharIsSpecial(Scanner in, char c) {
-		return in.hasNext(Pattern.quote(c + ""));
-	}
-
 	private boolean hasNextCharIsDigit(Scanner in) {
 		return in.hasNext("[0-9]");
 	}
@@ -47,12 +42,11 @@ public class Main {
 		if (args.length == options) {
 			throw new APException("No arguments were received");
 		}
-		for (int i = 0; i < Math.min(args.length, 2); i++) {
+		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals(DESCENDING)) {
 				descending = true;
 				options++;
-			}
-			if (args[i].equals(CASE_INSENSITIVITY)) {
+			} else if (args[i].equals(CASE_INSENSITIVITY)) {
 				caseInsensitive = true;
 				options++;
 			}
@@ -71,19 +65,26 @@ public class Main {
 			throw new APException("The tree is empty, no output found");
 
 		while (iterator.hasNext()) {
-			while(iterator.hasNext()) {
+			while (iterator.hasNext()) {
 				next = iterator.next();
 				if (current.compareTo(next) == 0) {
 					counter++;
-				} else break;
+				} else
+					break;
 			}
 
 			if (counter % 2 == 1) {
 				print(current);
 			}
 
-			current = next.clone();
-			counter = 1;
+			if (iterator.hasNext()) {
+				current = next.clone();
+				counter = 1;
+			} else {
+				if (current.compareTo(next) != 0) {
+					print(next);
+				}
+			}
 		}
 	}
 
@@ -126,33 +127,28 @@ public class Main {
 		while (hasNext(in)) {
 			String id = in.next();
 
-			if (caseInsensitive) {
+			if (caseInsensitive)
 				id = id.toLowerCase();
-			}
 
-			if (isIdentifier(id)) {
+			if (isIdentifier(id))
 				tree.insert(toIdentifier(id));
-			}
 		}
 	}
 
-	private Scanner[] readScanner(String[] args, int start) throws APException {
-		Scanner[] scanners = new Scanner[args.length];
-		boolean files = false;
-		for (int i = start; i < args.length; i++) {
-			File file = new File(args[i]);
-			files = true;
+	private Scanner[] readScanner(String[] args, int options) throws APException {
+		Scanner[] scanners = new Scanner[args.length - options];
+		for (int i = 0; i < (args.length - options); i++) {
+			File file = new File(args[i + options]);
 
 			try {
 				scanners[i] = new Scanner(file);
 				scanners[i].useDelimiter(DELIMITER);
 			} catch (FileNotFoundException e) {
-				System.out.println("File " + file + " not found");
-				throw new APException("Incorrect input");
+				throw new APException("File " + file + " not found");
 			}
 		}
 
-		if (!files)
+		if (options >= args.length)
 			throw new APException("No input files were received, try again");
 
 		return scanners;
@@ -167,13 +163,12 @@ public class Main {
 			for (Scanner fileScanner : scannerArray) {
 				if (fileScanner != null) {
 					processInput(fileScanner);
-				}
+				} else
+					throw new APException("Invalid filescanner, file could not be scanned");
 			}
 
-			Iterator<Identifier> iterator = !descending ? tree.ascendingIterator() : tree.descendingIterator();
-			Iterator<Identifier> test = !descending ? tree.ascendingIterator() : tree.descendingIterator();
-			while(test.hasNext()) { System.out.println(test.next().stringify()); }
-//			print(iterator);
+			Iterator<Identifier> iterator = descending ? tree.descendingIterator() : tree.ascendingIterator();
+			print(iterator);
 		} catch (APException e) {
 			System.out.println(e.toString());
 		}
