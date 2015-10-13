@@ -64,30 +64,30 @@ public class Main {
 		Identifier current = new Identifier();
 		Identifier next = new Identifier();
 		int counter = 1;
-		
+
 		if (iterator.hasNext()) {
-			current = iterator.next();	
-		} else 
+			current = iterator.next();
+		} else
 			throw new APException("The tree is empty, no output found");
-		
-		while(iterator.hasNext()) {
-			if(iterator.hasNext()) {
+
+		while (iterator.hasNext()) {
+			if (iterator.hasNext()) {
 				next = iterator.next();
-				if(current.compareTo(next) == 0) {
+				if (current.compareTo(next) == 0) {
 					counter++;
 				}
 			}
-			
+
 			if (counter % 2 == 1) {
 				print(current);
 			}
-			
+
 			current = next.clone();
 			counter = 1;
-			
+
 		}
 	}
-	
+
 	private void print(Identifier id) {
 		System.out.println(id.stringify());
 	}
@@ -160,6 +160,10 @@ public class Main {
 	}
 
 	private void start(String[] args) {
+		for (String s : args) {
+			System.out.println(s);
+		}
+
 		try {
 			int options = options(args);
 			tree.init();
@@ -176,10 +180,6 @@ public class Main {
 		} catch (APException e) {
 			System.out.println(e.toString());
 		}
-		
-//		for(String s : args) {
-//			System.out.println(s);
-//		}
 	}
 
 	public static void main(String[] args) {

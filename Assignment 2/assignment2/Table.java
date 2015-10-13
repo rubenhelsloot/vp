@@ -61,6 +61,7 @@ public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInt
 		return cloneTable;
 	}
 	
+	@SuppressWarnings("hiding")
 	private class KeyValuePair<K extends Data<K>, V extends Clonable<V>> implements Data<KeyValuePair<K,V>> {
 		
 		private K key;
