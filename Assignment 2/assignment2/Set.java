@@ -16,7 +16,9 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 
 	@Override
 	public Set<E> addElement(E id) {
-		setList.insert(id);
+		if (!this.contains(id)) {
+			setList.insert(id);
+		}
 		return this;
 	}
 

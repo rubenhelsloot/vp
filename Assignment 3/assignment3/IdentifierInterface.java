@@ -40,14 +40,14 @@ public interface IdentifierInterface extends Data<Identifier> {
 	Identifier add(char c);
 
 	/*
-	 * Returns the Identifier.
+	 * Returns the string representation of the Identifier.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The Identifier has been returned.
+	 * @postcondition The string representation of the Identifier has been returned.
 	 */
 
-	StringBuffer get();
+	String stringify();
 
 	/*
 	 * Returns the length of the Identifier.
