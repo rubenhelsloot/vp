@@ -42,24 +42,25 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 	public List<E> insert(E d) {
 		if (current == null) {
 			// Insert in empty list
-			Node n = new Node((E) d.clone());
+			Node n = new Node(d);
 			first = last = current = n;
 		} else if (last.data.compareTo(d) < 0) {
 			// Insert at the end of the list
-			Node n = new Node((E) d.clone(), last, null);
+			Node n = new Node(d, last, null);
 			current = last = n;
 			current.prior.next = current;
 		} else if (first.data.compareTo(d) > 0) {
 			// Insert at the beginning of the list
-			Node n = new Node((E) d.clone(), null, first);
+			Node n = new Node(d, null, first);
 			current = first = n;
 			current.next.prior = current;
 		} else {
 			// insert after current, where current.next exists
 			find(d);
-			Node n = new Node((E) d.clone(), current.prior, current);
+			Node n = new Node(d, current.prior, current);
 			current = n;
-			current.next.prior = current.prior.next = n;
+			current.prior.next = n;
+			current.next.prior = n;
 		}
 		return this;
 	}
@@ -71,7 +72,6 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	@Override
 	public List<E> remove() {
-		// switch statement?
 		if (first == last) {
 			init();
 		} else if (current == first) {

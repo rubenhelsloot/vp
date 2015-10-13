@@ -48,7 +48,7 @@ NODE REMOVAL
  		// 1 child
  		if(root.left == null) {
  			root = root.right;
- 		} else if(root.right = null) {
+ 		} else if(root.right == null) {
  			root = root.left;
  		}
  		// 2 children

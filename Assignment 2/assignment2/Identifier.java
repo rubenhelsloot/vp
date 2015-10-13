@@ -21,8 +21,8 @@ class Identifier implements IdentifierInterface {
 	}
 
 	@Override
-	public StringBuffer get() {
-		return this.sb;
+	public String stringify() {
+		return this.sb.toString();
 	}
 
 	@Override

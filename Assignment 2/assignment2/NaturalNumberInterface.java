@@ -39,6 +39,26 @@ public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	
 	NaturalNumber add(char c);
 	
+	/*
+	 * Returns a NaturalNumber containing the NaturalNumber plus a given integer.
+	 * 
+	 * @precondition The NaturalNumber is nonempty
+	 * 
+	 * @postcondition The NaturalNumber result as the sum of NaturalNumber-PRE and int i
+	 */
+	
+	NaturalNumber raise(int i);
+	
+	/*
+	 *  Returns whether a NaturalNumber is equal to the given NaturalNumber.
+	 *  
+	 *  @precondition - 
+	 *  
+	 *  @postcondition FALSE: The NaturalNumbers are not equal. TRUE: The NaturalNumbers are equal.
+	 */
+	
+	boolean isEqual(NaturalNumber Number);
+	
 	/* 
 	 * Returns the value of the NaturalNumber converted to int.
 	 * 
@@ -48,6 +68,16 @@ public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	 */
 	
 	int get();
+	
+	/*
+	 * Returns a string version of the data inside the NaturalNumber.
+	 * 
+	 * @precondition -
+	 * 
+	 * @postcondition The stringification of the NaturalNumber has been returned.
+	 */
+	
+	String stringify();
 	
 	/* 
 	 * Returns the amount of elements in the NaturalNumber.

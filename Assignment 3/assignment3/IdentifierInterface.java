@@ -15,25 +15,19 @@
  *		<dt><b>PRE-condition</b><dd>The char c is a letter.
  *		<dt><b>POST-condition</b><dd>The new Identifier contains the char c.
  *	    </dl>
- *	<br>
- *	Identifier(Identifier origin);
- *	    <dl>
- *		<dt><b>PRE-condition</b><dd>-
- *		<dt><b>POST-condition</b><dd>The content of the new Identifier is a clone of the Identifier origin
- *	    </dl>
  */
 
 public interface IdentifierInterface extends Data<Identifier> {
 
 	/*
-	 * Initializes the Identifier-object to an identifier with one character.
+	 * Initializes the Identifier-object to an empty Identifier.b
 	 * 
-	 * @precondition c is a letter in the format of a-Z.
+	 * @precondition -
 	 * 
-	 * @postcondition The identifier has been initialized with a character c.
+	 * @postcondition The identifier has been initialized as an empty Identifier.
 	 */
 
-	Identifier init(char c);
+	Identifier init();
 
 	/*
 	 * Adds a character to the Identifier
@@ -46,26 +40,14 @@ public interface IdentifierInterface extends Data<Identifier> {
 	Identifier add(char c);
 
 	/*
-	 * Returns the Identifier.
+	 * Returns the string representation of the Identifier.
 	 * 
 	 * @precondition -
 	 * 
-	 * @postcondition The Identifier has been returned.
+	 * @postcondition The string representation of the Identifier has been returned.
 	 */
 
-	Identifier get();
-
-	/*
-	 * Removes a specific character from the Identifier.
-	 * 
-	 * @precondition index is a number that is larger than 0 and smaller than
-	 * the length of the Identifier.
-	 * 
-	 * @postcondition The character at the specified index has been removed from
-	 * the Identifier.
-	 */
-
-	Identifier remove(int index);
+	String stringify();
 
 	/*
 	 * Returns the length of the Identifier.

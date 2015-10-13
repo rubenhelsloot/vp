@@ -140,7 +140,7 @@ public class Main {
 		System.out.print(prelude + ": {");
 		while (answer.getSize() > 0) {
 			Identifier id = answer.getRemove();
-			System.out.print(id.get().sb);
+			System.out.print(id.get());
 
 			// For the last element, don't print the space at the end
 			if (answer.getSize() >= 1) {

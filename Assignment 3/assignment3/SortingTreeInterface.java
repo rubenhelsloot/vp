@@ -31,7 +31,7 @@ import java.util.Iterator;
  *	    </dl>
  *	<br>
  */
-public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
+public interface SortingTreeInterface<E extends Data<E>> extends Clonable<SortingTreeInterface<E>> {
 
 	/*
 	 * Initializes the SortingTree-object to be an empty SortingTree.
@@ -55,17 +55,6 @@ public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 	SortingTree<E> insert(E id);
 
 	/*
-	 * Remove the object with the same content as id from the SortingTree.
-	 * 
-	 * @precondition -
-	 * 
-	 * @postcondition The SortingTree-POST does not contain an object with the
-	 * same content as id.
-	 */
-
-	SortingTree<E> remove(E id);
-
-	/*
 	 * Checks if an object of type E with the same content as id is contained in
 	 * the SortingTree.
 	 * 
@@ -78,6 +67,38 @@ public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 	 */
 
 	boolean contains(E id);
+	
+	/*
+	 * Removes the node containing the specific object from the tree
+	 * 
+	 * @precondition The node containing the specific object must be in the tree.
+	 * 
+	 * @postcondition The node is no longer in the resulting tree
+	 * 
+	 * @throws APException if the node containing the specific object is not in the tree.
+	 */
+	
+	SortingTree<E> remove(E id) throws APException;
+	
+	/*
+	 * Returns size of the tree
+	 * 
+	 * @precondition -
+	 * 
+	 * @postcondition The number of nodes in the SortingTree is returned
+	 */
+	
+	int size();
+	
+	/*
+	 * Returns the depth of the tree
+	 * 
+	 * @precondition -
+	 * 
+	 * @postcondition The deepest layer of the SortingTree is returned
+	 */
+	
+	int height();
 
 	/*
 	 * Return the nodes of the SortingTree, in an ascending order.
@@ -91,7 +112,7 @@ public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 	 * 
 	 */
 
-	Iterator<E> sortUpward(E id);
+	Iterator<E> ascendingIterator ();
 
 	/*
 	 * Checks if an object of type E with the same content as id is contained in
@@ -106,5 +127,5 @@ public interface SortingTreeInterface<E extends Data<E>> extends Iterator<E> {
 	 * 
 	 */
 
-	Iterator<E> sortDownward(E id);
+	Iterator<E> descendingIterator();
 }
