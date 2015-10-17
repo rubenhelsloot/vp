@@ -89,11 +89,11 @@ public class Main {
 		else
 			throw new APException("'" + INNER_OPEN + "' expected");
 
-		set1 = readSet(in);
+		set1 = readPartial(in);
 		removeWhiteSpace(in);
 		char operator = readOperator(in, expression);
 		removeWhiteSpace(in);
-		set2 = readSet(in);
+		set2 = readPartial(in);
 
 		return parseBoolean(set1, operator, set2);
 	}
@@ -183,12 +183,13 @@ public class Main {
 
 			if (hasNextCharIsDigit(in)) {
 				NaturalNumber second = readNaturalNumber(in);
-
-				int i = 0;
-				while (first.clone().raise(i).compareTo(second) <= 0) {
-					NaturalNumber test = first.clone().raise(i);
-					result.addElement(test);
-					i++;
+				
+				if(first.compareTo(second) < 0) {
+					result.addElement(first);
+					while (first.compareTo(second) < 0) {
+						first = first.clone().raise(1);
+						result.addElement(first);
+					}
 				}
 
 			} else
